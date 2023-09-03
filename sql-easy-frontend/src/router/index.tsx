@@ -1,16 +1,19 @@
 import {createBrowserRouter} from "react-router-dom"
 import {Layout} from "@/layout/Layout.tsx"
 import {NotFound} from "@/views/NotFound/NotFound.tsx"
+import {Login} from "@/views/Login/Login.tsx"
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: Layout(),
-		errorElement: NotFound(),
+		element: <Layout/>,
+		errorElement: <NotFound/>,
 		hasErrorBoundary: true,
 	},
-], {
-	basename: "/base-name"
-})
+	{
+		path: "/login",
+		element: <Login/>
+	}
+])
 
 export default router
