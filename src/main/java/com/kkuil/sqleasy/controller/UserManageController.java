@@ -4,9 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kkuil.sqleasy.anotations.AuthAdmin;
 import com.kkuil.sqleasy.model.common.page.PageRes;
-import com.kkuil.sqleasy.model.dto.user.AddUserDTO;
-import com.kkuil.sqleasy.model.dto.user.UpdateUserDTO;
+import com.kkuil.sqleasy.model.dto.userManage.AddUserDTO;
+import com.kkuil.sqleasy.model.dto.userManage.UpdateUserDTO;
 import com.kkuil.sqleasy.model.entity.User;
 import com.kkuil.sqleasy.service.IUserService;
 import com.kkuil.sqleasy.utils.ResultUtil;
@@ -23,12 +24,13 @@ import java.util.List;
 /**
  * @Author kkuil
  * @Date 2023/07/29 20:00
- * @Description 用户控制器
+ * @Description 用户管理控制器
  */
 @RestController
 @RequestMapping("/user")
 @Slf4j
-public class UserController {
+@AuthAdmin
+public class UserManageController {
 
     @Resource
     private IUserService userService;

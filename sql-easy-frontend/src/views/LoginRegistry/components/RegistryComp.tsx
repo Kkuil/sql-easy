@@ -1,7 +1,15 @@
 import {ProFormText} from "@ant-design/pro-components"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
+import {TRegistryInfo} from "@/views/LoginRegistry/LoginRegistry.tsx"
 
-export function RegistryComp() {
+/**
+ *  注册组件属性类型
+ */
+type  TRegistryCompProps = {
+	registryInfo: TRegistryInfo
+}
+
+export function RegistryComp({registryInfo}: TRegistryCompProps) {
 	return (
 		<>
 			<ProFormText
@@ -49,12 +57,9 @@ export function RegistryComp() {
 				placeholder="请再次输入密码"
 				rules={[
 					{
+						pattern: new RegExp(registryInfo.password),
 						required: true,
-						message: "请输入密码！",
-					},
-					{
-						max: 10,
-						message: "密码不能超过10个字符!"
+						message: "两次输入的密码不一致！",
 					}
 				]}
 			/>

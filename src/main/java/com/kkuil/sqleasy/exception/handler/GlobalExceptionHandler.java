@@ -1,5 +1,6 @@
-package com.kkuil.sqleasy.exception;
+package com.kkuil.sqleasy.exception.handler;
 
+import com.kkuil.sqleasy.utils.ResultUtil;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +21,7 @@ public class GlobalExceptionHandler {
      * @description 处理所有不可知的异常
      */
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity handleException(Exception e) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
-    }
-
-    /**
-     * @param e Exception
-     * @return ResponseEntity
-     * @description 处理未登录异常
-     */
-    @ExceptionHandler(value = AccessException.class)
-    public ResponseEntity handleAuthException(Exception e) {
-        // 处理异常的逻辑
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(e.getMessage());
+    public ResultUtil<Boolean> handleException(Exception e) {
+        return ResultUtil.error(e.getMessage(), false);
     }
 }

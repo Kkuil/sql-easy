@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 /**
  * @Author kkuil
  * @Date 2023/07/29 20:00
- * @Description UserServiceImpl
+ * @Description UserManageServiceImpl
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+public class UserManageServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 }

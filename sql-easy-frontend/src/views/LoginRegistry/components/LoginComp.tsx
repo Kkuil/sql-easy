@@ -1,7 +1,19 @@
 import {ProFormCheckbox, ProFormText} from "@ant-design/pro-components"
 import {LockOutlined, UserOutlined} from "@ant-design/icons"
+import {TLoginInfo} from "@/views/LoginRegistry/LoginRegistry.tsx"
+import {useEffect} from "react"
 
-export function LoginComp() {
+/**
+ *  登录组件属性类型
+ */
+type  TLoginCompProps = {
+	loginInfo: TLoginInfo
+}
+
+export function LoginComp({loginInfo}: TLoginCompProps) {
+	useEffect(() => {
+		console.log(loginInfo)
+	}, [loginInfo])
 	return (
 		<>
 			<ProFormText

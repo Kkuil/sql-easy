@@ -1,4 +1,5 @@
 import axios from "axios"
+import {TOKEN_KEY_IN_HEADER, TOKEN_KEY_IN_HEADER_PREFIX, TOKEN_KEY_IN_LOCAL_STORAGE} from "@/constant/user.ts"
 
 const BASE_URL: string = import.meta.env.VITE_REQUEST_BASE_URL
 const BASE_PORT: number = import.meta.env.VITE_REQUEST_BASE_PORT
@@ -8,28 +9,32 @@ const BASE_PREFIX: string = import.meta.env.VITE_REQUEST_BASE_PREFIX
 console.log(BASE_URL, BASE_PORT, BASE_TIMEOUT, BASE_PREFIX)
 
 const request = axios.create({
-    baseURL: BASE_URL + ":" + BASE_PORT + BASE_PREFIX,
-    timeout: BASE_TIMEOUT
+	baseURL: BASE_URL + ":" + BASE_PORT + BASE_PREFIX,
+	timeout: BASE_TIMEOUT
 })
 
 // 请求拦截器
 request.interceptors.request.use(
-    (config) => {
-        return config
-    },
-    (error) => {
-        return Promise.reject(error)
-    }
+	(config) => {
+		const token = localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
+		if (!token) return config
+		const token_header = TOKEN_KEY_IN_HEADER_PREFIX + token
+		config.headers[TOKEN_KEY_IN_HEADER] = token_header
+		return config
+	},
+	(error) => {
+		return Promise.reject(error)
+	}
 )
 
 // 响应拦截器
 request.interceptors.response.use(
-    (response) => {
-        return response.data
-    },
-    (error) => {
-        return Promise.reject(error)
-    }
+	(response) => {
+		return response.data
+	},
+	(error) => {
+		return Promise.reject(error)
+	}
 )
 
 export default request

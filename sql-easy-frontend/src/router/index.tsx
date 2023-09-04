@@ -1,7 +1,7 @@
 import {createBrowserRouter} from "react-router-dom"
 import {Layout} from "@/layout/Layout.tsx"
 import {NotFound} from "@/views/NotFound/NotFound.tsx"
-import {Login} from "@/views/Login/Login.tsx"
+import {LoginRegistry} from "@/views/LoginRegistry/LoginRegistry.tsx"
 
 const router = createBrowserRouter([
 	{
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/login",
-		element: <Login/>
+		element: <LoginRegistry/>
 	}
 ])
 

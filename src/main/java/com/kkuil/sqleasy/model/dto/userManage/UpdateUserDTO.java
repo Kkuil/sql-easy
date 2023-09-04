@@ -1,4 +1,4 @@
-package com.kkuil.sqleasy.model.dto.user;
+package com.kkuil.sqleasy.model.dto.userManage;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,12 +6,15 @@ import lombok.experimental.Accessors;
 /**
  * @Author Kkuil
  * @Date 2023/08/11 11:45
- * @Description 添加用戶数据传输对象
+ * @Description 修改用户数据传输对象
  */
-
 @Data
 @Accessors(chain = true)
-public class AddUserDTO {
+public class UpdateUserDTO {
+    /**
+     * 用户id
+     */
+    private Integer id;
     /**
      * 用户名
      */
