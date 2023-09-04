@@ -29,13 +29,13 @@ public class DataGenerateServiceImpl implements IDataGenerateService {
     @Override
     public ResultUtil<GeneratedAllDataVO> generate(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         // 获取方言
-        String dialect = dataGenerateConfigInfoDTO.getDialect();
+        String dialect = dataGenerateConfigInfoDTO.getDialect().toLowerCase();
 
         // 生产相应的方言构造器
         IDialectBuilder<GeneratedAllDataVO> dialectBuilder = dialectBuilderFactory.produce(dialect);
 
         // 生成数据
-        GeneratedAllDataVO generatedAllDataVO = dialectBuilder.build();
+        GeneratedAllDataVO generatedAllDataVO = dialectBuilder.build(dataGenerateConfigInfoDTO);
 
         // 返回数据
         return ResultUtil.success("获取成功", generatedAllDataVO);

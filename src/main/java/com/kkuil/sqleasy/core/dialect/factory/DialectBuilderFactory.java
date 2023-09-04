@@ -2,6 +2,7 @@ package com.kkuil.sqleasy.core.dialect.factory;
 
 import com.kkuil.sqleasy.core.dialect.factory.builders.IDialectBuilder;
 import com.kkuil.sqleasy.core.dialect.factory.builders.MySqlBuilder;
+import com.kkuil.sqleasy.core.model.vo.GeneratedAllDataVO;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class DialectBuilderFactory implements IDialectBuilderFactory {
     /**
      * 方言构造器Map
      */
-    public static final Map<String, IDialectBuilder<Object>> DIALECT_BUILDER_MAP = new HashMap<>(8);
+    public static final Map<String, IDialectBuilder<GeneratedAllDataVO>> DIALECT_BUILDER_MAP = new HashMap<>(8);
 
     static {
         DIALECT_BUILDER_MAP.put("mysql", new MySqlBuilder());
@@ -30,7 +31,7 @@ public class DialectBuilderFactory implements IDialectBuilderFactory {
      * @return 数据
      */
     @Override
-    public IDialectBuilder<Object> produce(String builderName) {
+    public IDialectBuilder<GeneratedAllDataVO> produce(String builderName) {
         return DIALECT_BUILDER_MAP.get(builderName);
     }
 }

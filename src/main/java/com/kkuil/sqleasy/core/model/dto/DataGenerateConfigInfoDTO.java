@@ -40,7 +40,7 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 生成的数据数量
      */
-    private String count;
+    private Integer count;
 
     /**
      * 字段信息

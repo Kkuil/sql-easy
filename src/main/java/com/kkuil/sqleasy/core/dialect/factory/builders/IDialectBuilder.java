@@ -2,6 +2,7 @@ package com.kkuil.sqleasy.core.dialect.factory.builders;
 
 import com.kkuil.sqleasy.core.model.bo.CodeDataBO;
 import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
+import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 
 /**
  * @Author Kkuil
@@ -13,23 +14,26 @@ public interface IDialectBuilder<T> {
     /**
      * 构造数据
      *
+     * @param dataGenerateConfigInfoDTO 生成数据配置信息
      * @return 数据
      */
-    T build();
+    T build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO);
 
     /**
      * sql构造器
      *
+     * @param dataGenerateConfigInfoDTO 生成数据配置信息
      * @return SqlDataBO
      */
-    SqlDataBO buildSql();
+    SqlDataBO buildSql(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO);
 
     /**
      * 代码构造器
      *
-     * @return CodeDataBO<Object, Object, Object>
+     * @param dataGenerateConfigInfoDTO 生成数据配置信息
+     * @return CodeDataBO
      */
-    default CodeDataBO buildCode() {
+    default CodeDataBO buildCode(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         CodeDataBO codeDataBO = CodeDataBO.builder()
                 .javaCode("javaCode")
                 .jsonCode("jsonCode")

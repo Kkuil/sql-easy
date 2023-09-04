@@ -1,6 +1,6 @@
 package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers;
 
-import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
+import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.AbstractMySqlDataBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 
@@ -12,57 +12,7 @@ import static com.kkuil.sqleasy.core.constant.GlobalConst.FIELD_INDENTATION;
  * @Date 2023/9/4 18:33
  * @Description 建表SQL构造器
  */
-public class CreateTableSqlBuilder implements IDataBuilder<String> {
-
-    /**
-     * 建表模板
-     */
-    public static final String CREATE_TABLE_CODE_TEMPLATE = """
-            -- %s
-            CREATE TABLE IF NOT EXISTS %s (
-            %s
-            ) ENGINE=%s COMMENT=%s;
-            """;
-
-    /**
-     * 默认值关键词
-     */
-    public static final String DEFAULT = "DEFAULT";
-
-    /**
-     * 自增关键词
-     */
-    public static final String AUTO_INCREMENT = "AUTO_INCREMENT";
-
-    /**
-     * 非空关键词
-     */
-    public static final String NOT_NULL = "NOT NULL";
-
-    /**
-     * 唯一性关键词
-     */
-    public static final String UNIQUE = "UNIQUE";
-
-    /**
-     * 主键关键词
-     */
-    public static final String PRIMARY = "PRIMARY KEY";
-
-    /**
-     * 注释关键词
-     */
-    public static final String COMMENT = "COMMENT";
-
-    /**
-     * 同步更新关键词
-     */
-    public static final String ON_UPDATE = "ON UPDATE";
-
-    /**
-     * 默认同步更新的选项
-     */
-    public static final String DEFAULT_ON_UPDATE = "CURRENT_TIMESTAMP";
+public class CreateTableSqlWithMySqlBuilder extends AbstractMySqlDataBuilder {
 
     /**
      * 生成数据
