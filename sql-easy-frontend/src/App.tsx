@@ -1,10 +1,11 @@
-import {Layout} from "@/layout/Layout.tsx"
+import {RouterProvider} from "react-router"
+import router from "@/router/index.tsx"
 
 function App() {
 	return (
-		<>
-			<Layout/>
-		</>
+		<RouterProvider
+			router={router}
+		/>
 	)
 }
 

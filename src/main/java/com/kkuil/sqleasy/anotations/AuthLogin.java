@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
  * @Description 验证登录注解
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 public @interface AuthLogin {
 }

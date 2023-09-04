@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Builder
-public class MapDataInToken {
+public class MapDataInTokenBO {
     /**
      * 用户名
      */

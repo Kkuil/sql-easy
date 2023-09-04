@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kkuil.sqleasy.exception.NecessaryFieldsIsEmptyException;
-import com.kkuil.sqleasy.model.bo.MapDataInToken;
+import com.kkuil.sqleasy.model.bo.MapDataInTokenBO;
 import com.kkuil.sqleasy.model.dto.userCommon.UserLoginDTO;
 import com.kkuil.sqleasy.model.dto.userCommon.UserRegistryDTO;
 import com.kkuil.sqleasy.model.entity.User;
@@ -58,12 +58,12 @@ public class UserCommonServiceImpl implements IUserCommonService {
         String pwdInForm = DigestUtil.md5Hex(password + USER_ENCRYPT_VALUE);
         log.info("pwdInTable: {}", pwdInTable);
         log.info("pwdInForm: {}", pwdInForm);
-        MapDataInToken mapDataInToken = MapDataInToken.builder().username(username).build();
+        MapDataInTokenBO mapDataInTokenBO = MapDataInTokenBO.builder().username(username).build();
         if (!pwdInTable.equals(pwdInForm)) {
             return ResultUtil.error("密码错误", null);
         }
         Map<String, Object> tokenMap = new HashMap<>(8);
-        tokenMap = BeanUtil.beanToMap(mapDataInToken, tokenMap, false, true);
+        tokenMap = BeanUtil.beanToMap(mapDataInTokenBO, tokenMap, false, true);
         String token = JwtUtils.create(tokenMap, USER_TOKEN_SECRET, USER_TOKEN_TTL);
         return ResultUtil.success("登录成功", token);
     }

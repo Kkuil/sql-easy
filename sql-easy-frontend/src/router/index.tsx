@@ -6,15 +6,15 @@ import {UserManage} from "@/views/Manage/UserManage/UserManage.tsx"
 import {SqlEasy} from "@/views/SqlEasy/SqlEasy.tsx"
 import {Manage} from "@/views/Manage/Manage.tsx"
 
-const router = createBrowserRouter([
+const index = createBrowserRouter([
 	{
 		path: "/",
 		element: <Layout/>,
 		errorElement: <NotFound/>,
 		children: [
 			{
-				index: true,
 				path: "/sql-easy",
+				index: true,
 				element: <SqlEasy/>
 			},
 			{
@@ -35,4 +35,4 @@ const router = createBrowserRouter([
 	}
 ])
 
-export default router
+export default index
