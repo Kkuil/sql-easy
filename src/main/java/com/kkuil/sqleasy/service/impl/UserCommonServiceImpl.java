@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kkuil.sqleasy.constant.UserCont.*;
+import static com.kkuil.sqleasy.constant.UserConst.*;
 
 /**
  * @Author Kkuil
