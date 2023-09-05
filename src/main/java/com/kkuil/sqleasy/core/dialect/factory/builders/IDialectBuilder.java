@@ -1,5 +1,6 @@
 package com.kkuil.sqleasy.core.dialect.factory.builders;
 
+import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.JavaCodeBuilder;
 import com.kkuil.sqleasy.core.model.bo.CodeDataBO;
 import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
@@ -34,8 +35,12 @@ public interface IDialectBuilder<T> {
      * @return CodeDataBO
      */
     default CodeDataBO buildCode(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+        // 1. java代码
+        JavaCodeBuilder javaCodeBuilder = new JavaCodeBuilder();
+        String javaCode = javaCodeBuilder.build(dataGenerateConfigInfoDTO);
+
         CodeDataBO codeDataBO = CodeDataBO.builder()
-                .javaCode("javaCode")
+                .javaCode(javaCode)
                 .jsonCode("jsonCode")
                 .typescriptCode("typescriptCode")
                 .build();

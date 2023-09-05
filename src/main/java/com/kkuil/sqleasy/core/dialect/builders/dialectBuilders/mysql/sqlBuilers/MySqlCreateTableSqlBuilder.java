@@ -7,6 +7,7 @@ import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
 import static com.kkuil.sqleasy.constant.GlobalConst.SPACE_STR;
 import static com.kkuil.sqleasy.core.constant.GlobalConst.FIELD_INDENTATION;
+import static com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBuilders.AbstractMySqlInsertSqlBuilder.SPLIT_CHAR;
 
 /**
  * @Author Kkuil
@@ -83,6 +84,7 @@ public class MySqlCreateTableSqlBuilder extends AbstractMySqlCreateTableSqlBuild
                     .append(onUpdate ? ON_UPDATE + SPACE_STR + DEFAULT_ON_UPDATE : EMPTY_STR)
                     .append(" ")
                     .append(EMPTY_STR.equals(comment) ? EMPTY_STR : COMMENT + SPACE_STR + comment)
+                    .append(SPLIT_CHAR)
                     .append("\n");
             fieldStringBuilder.append(stringBuilder);
         }

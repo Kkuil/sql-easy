@@ -2,6 +2,7 @@ package com.kkuil.sqleasy.core.model.bo;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * @Author Kkuil
@@ -14,11 +15,13 @@ public class FieldInfoBO {
     /**
      * 字段名
      */
+    @NonNull
     private String name;
 
     /**
      * 字段类型
      */
+    @NonNull
     private String type;
 
     /**

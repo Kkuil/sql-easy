@@ -3,6 +3,7 @@ package com.kkuil.sqleasy.core.model.dto;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * @Author Kkuil
@@ -15,6 +16,7 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 方言
      */
+    @NonNull
     private String dialect;
 
     /**
@@ -25,6 +27,7 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 表名
      */
+    @NonNull
     private String table;
 
     /**
@@ -40,10 +43,12 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 生成的数据数量
      */
+    @NonNull
     private Integer count;
 
     /**
      * 字段信息
      */
+    @NonNull
     private FieldInfoBO[] fields;
 }

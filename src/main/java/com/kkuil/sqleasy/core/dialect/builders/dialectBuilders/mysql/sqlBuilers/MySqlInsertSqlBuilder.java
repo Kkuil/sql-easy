@@ -21,7 +21,7 @@ import static com.kkuil.sqleasy.constant.GlobalConst.NEW_LINE_CHAR;
  */
 public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
 
-    private IMockStrategyFactory mockStrategyFactory = new MockStrategyFactory();
+    private static final IMockStrategyFactory MOCK_STRATEGY_FACTORY = new MockStrategyFactory();
 
     /**
      * 生成模拟数据
@@ -78,7 +78,7 @@ public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
         // 1. 获取模拟数据
         ArrayList<Object[]> datas = new ArrayList<>();
         for (FieldInfoBO field : fields) {
-            IMockStrategy mockStrategy = mockStrategyFactory.produce(field.getMockDataType());
+            IMockStrategy mockStrategy = MOCK_STRATEGY_FACTORY.produce(field.getMockDataType());
             Object[] data = mockStrategy.getData(count, field);
             datas.add(data);
         }

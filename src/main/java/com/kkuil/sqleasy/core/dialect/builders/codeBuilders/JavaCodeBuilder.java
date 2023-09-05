@@ -1,9 +1,73 @@
 package com.kkuil.sqleasy.core.dialect.builders.codeBuilders;
 
+import com.kkuil.sqleasy.anotations.Validate;
+import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
+import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import com.kkuil.sqleasy.core.model.bo.JavaEntityBO;
+import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
+import com.kkuil.sqleasy.enums.ValidateRuleEnum;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import jakarta.annotation.Resource;
+import lombok.NonNull;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+
 /**
  * @Author Kkuil
  * @Date 2023/9/4 18:34
  * @Description Java代码构造器
  */
-public class JavaCodeBuilder {
+@Component
+public class JavaCodeBuilder implements IDataBuilder {
+
+    private static Configuration configuration;
+
+    @Resource
+    public void setConfiguration(Configuration configuration) {
+        JavaCodeBuilder.configuration = configuration;
+    }
+
+    /**
+     * 生成数据
+     *
+     * @param dataGenerateConfigInfoDTO 生成数据配置信息
+     * @return 数据
+     */
+    @Override
+    public String build(@NonNull @Validate(rule = "EMPTY", extra = "123") DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+        // 数据转化
+        // 1. 类名
+        String clazz = dataGenerateConfigInfoDTO.getTable();
+        // 2. 类描述
+        String comment = dataGenerateConfigInfoDTO.getComment();
+        // 3. 字段信息
+        ArrayList<JavaEntityBO.FieldInfo> fieldList = new ArrayList<>();
+        FieldInfoBO[] fields = dataGenerateConfigInfoDTO.getFields();
+        for (FieldInfoBO field : fields) {
+            JavaEntityBO.FieldInfo fieldInfo = new JavaEntityBO.FieldInfo();
+            fieldInfo
+                    .setName(field.getName())
+                    .setType(field.getType())
+                    .setComment(field.getComment());
+            fieldList.add(fieldInfo);
+        }
+        JavaEntityBO javaEntityBO = JavaEntityBO.builder()
+                .clazz(clazz)
+                .comment(comment)
+                .fieldList(fieldList)
+                .build();
+        StringWriter stringWriter = new StringWriter();
+        try {
+            Template temp = configuration.getTemplate("java_entity.ftl");
+            temp.process(javaEntityBO, stringWriter);
+            return stringWriter.toString();
+        } catch (IOException | TemplateException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
