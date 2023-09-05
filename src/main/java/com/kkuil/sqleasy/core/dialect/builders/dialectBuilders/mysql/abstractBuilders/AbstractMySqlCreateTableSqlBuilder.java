@@ -1,22 +1,22 @@
-package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql;
+package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBuilders;
 
-import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
+import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.AbstractSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
-import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 
 /**
  * @Author Kkuil
  * @Date 2023/9/4 23:19
  * @Description 抽象MySQL类
  */
-public abstract class AbstractMySqlDataBuilder implements IDataBuilder<String> {
+public abstract class AbstractMySqlCreateTableSqlBuilder extends AbstractSqlBuilder {
 
     /**
      * 建表模板
      */
     public static final String CREATE_TABLE_CODE_TEMPLATE = """
+            
             -- %s
-            CREATE TABLE IF NOT EXISTS %s (
+            CREATE TABLE IF NOT EXISTS %s.`%s` (
             %s
             ) ENGINE=%s COMMENT=%s;
             """;
@@ -60,14 +60,6 @@ public abstract class AbstractMySqlDataBuilder implements IDataBuilder<String> {
      * 默认同步更新的选项
      */
     public static final String DEFAULT_ON_UPDATE = "CURRENT_TIMESTAMP";
-
-    /**
-     * 生成数据
-     *
-     * @param dataGenerateConfigInfoDTO 生成数据配置信息
-     * @return 数据
-     */
-    public abstract String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO);
 
     /**
      * 构建字段部分

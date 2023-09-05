@@ -1,10 +1,11 @@
 package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers;
 
-import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.AbstractMySqlDataBuilder;
+import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBuilders.AbstractMySqlCreateTableSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 
 import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
+import static com.kkuil.sqleasy.constant.GlobalConst.SPACE_STR;
 import static com.kkuil.sqleasy.core.constant.GlobalConst.FIELD_INDENTATION;
 
 /**
@@ -12,7 +13,7 @@ import static com.kkuil.sqleasy.core.constant.GlobalConst.FIELD_INDENTATION;
  * @Date 2023/9/4 18:33
  * @Description 建表SQL构造器
  */
-public class CreateTableSqlWithMySqlBuilder extends AbstractMySqlDataBuilder {
+public class MySqlCreateTableSqlBuilder extends AbstractMySqlCreateTableSqlBuilder {
 
     /**
      * 生成数据
@@ -23,26 +24,28 @@ public class CreateTableSqlWithMySqlBuilder extends AbstractMySqlDataBuilder {
     public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         // 1. 注释
         String comment = dataGenerateConfigInfoDTO.getComment();
-        // 2. 表名
+        // 2. 数据库名
+        String database = dataGenerateConfigInfoDTO.getDatabase();
+        // 3. 表名
         String table = dataGenerateConfigInfoDTO.getTable();
-        // 3. 建表字段
+        // 4. 建表字段
         String fields = buildFields(dataGenerateConfigInfoDTO.getFields());
-        // 4. 引擎
+        // 5. 引擎
         String engine = dataGenerateConfigInfoDTO.getEngine();
-        // 5. 组合
-        return String.format(CREATE_TABLE_CODE_TEMPLATE, comment, table, fields, engine, comment);
+        // 6. 组合
+        return String.format(CREATE_TABLE_CODE_TEMPLATE, comment, database, table, fields, engine, comment);
     }
 
     /**
      * 构建字段部分
      *
-     * @param fieldInfoBOS 字段配置信息
+     * @param fields 字段配置信息
      * @return 建表字段部分
      */
     @Override
-    public String buildFields(FieldInfoBO[] fieldInfoBOS) {
+    public String buildFields(FieldInfoBO[] fields) {
         StringBuilder fieldStringBuilder = new StringBuilder();
-        for (FieldInfoBO field : fieldInfoBOS) {
+        for (FieldInfoBO field : fields) {
             StringBuilder stringBuilder = new StringBuilder(FIELD_INDENTATION);
             // 1. 表名
             String name = field.getName();
@@ -67,7 +70,7 @@ public class CreateTableSqlWithMySqlBuilder extends AbstractMySqlDataBuilder {
                     .append(" ")
                     .append(type)
                     .append(" ")
-                    .append(EMPTY_STR.equals(defaultValue) ? EMPTY_STR : DEFAULT + defaultValue)
+                    .append(EMPTY_STR.equals(defaultValue) ? EMPTY_STR : DEFAULT + SPACE_STR + defaultValue)
                     .append(" ")
                     .append(autoIncrement ? AUTO_INCREMENT : EMPTY_STR)
                     .append(" ")
@@ -77,9 +80,10 @@ public class CreateTableSqlWithMySqlBuilder extends AbstractMySqlDataBuilder {
                     .append(" ")
                     .append(primary ? PRIMARY : EMPTY_STR)
                     .append(" ")
-                    .append(onUpdate ? ON_UPDATE + DEFAULT_ON_UPDATE : EMPTY_STR)
+                    .append(onUpdate ? ON_UPDATE + SPACE_STR + DEFAULT_ON_UPDATE : EMPTY_STR)
                     .append(" ")
-                    .append(EMPTY_STR.equals(comment) ? EMPTY_STR : COMMENT + comment);
+                    .append(EMPTY_STR.equals(comment) ? EMPTY_STR : COMMENT + SPACE_STR + comment)
+                    .append("\n");
             fieldStringBuilder.append(stringBuilder);
         }
         return fieldStringBuilder.toString();

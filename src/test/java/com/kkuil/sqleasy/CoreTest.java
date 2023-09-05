@@ -57,4 +57,36 @@ public class CoreTest {
         log.info("generate: {}", generate);
     }
 
+    @Test
+    void testAutoIncrementStrategy() {
+        ArrayList<FieldInfoBO> fieldInfoBOS = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            FieldInfoBO field = FieldInfoBO.builder()
+                    .name("test")
+                    .type("test")
+                    .defaultValue("test")
+                    .comment("test")
+                    .onUpdate(true)
+                    .nonNull(true)
+                    .unique(true)
+                    .primary(true)
+                    .autoIncrement(true)
+                    .mockDataType(MockDataTypeEnum.AUTO_INCREMENT.getId())
+                    .extraInfo(0)
+                    .build();
+            fieldInfoBOS.add(field);
+        }
+        DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO = DataGenerateConfigInfoDTO.builder()
+                .dialect("mysql")
+                .database("test")
+                .table("test")
+                .engine("test")
+                .comment("test")
+                .count(20)
+                .fields(ArrayUtil.toArray(fieldInfoBOS, FieldInfoBO.class))
+                .build();
+        ResultUtil<GeneratedAllDataVO> generate = dataGenerateService.generate(dataGenerateConfigInfoDTO);
+        log.info("generate: {}", generate);
+    }
+
 }

@@ -60,4 +60,9 @@ public class FieldInfoBO {
      * 模拟的数据类型
      */
     private Integer mockDataType;
+
+    /**
+     * 额外信息
+     */
+    private Object extraInfo;
 }

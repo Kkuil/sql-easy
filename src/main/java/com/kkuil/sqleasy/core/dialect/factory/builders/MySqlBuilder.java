@@ -1,6 +1,7 @@
 package com.kkuil.sqleasy.core.dialect.factory.builders;
 
-import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers.CreateTableSqlWithMySqlBuilder;
+import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers.MySqlCreateTableSqlBuilder;
+import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers.MySqlInsertSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.CodeDataBO;
 import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
@@ -42,14 +43,19 @@ public class MySqlBuilder implements IDialectBuilder<GeneratedAllDataVO> {
      */
     @Override
     public SqlDataBO buildSql(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
-        // 建表语句构造器
-        CreateTableSqlWithMySqlBuilder createTableSqlWithMySqlBuilder = new CreateTableSqlWithMySqlBuilder();
-        // 生成建表语句
-        String createTableSqlWithMySql = createTableSqlWithMySqlBuilder.build(dataGenerateConfigInfoDTO);
+        // 1. 建表语句构造器
+        MySqlCreateTableSqlBuilder createTableSqlBuilder = new MySqlCreateTableSqlBuilder();
+        // 2. 生成建表语句
+        String createTableSql = createTableSqlBuilder.build(dataGenerateConfigInfoDTO);
+
+        // 1. 插入语句构造器
+        MySqlInsertSqlBuilder insertSqlBuilder = new MySqlInsertSqlBuilder();
+        // 2. 生成建表语句
+        String insertSql = insertSqlBuilder.build(dataGenerateConfigInfoDTO);
         // 构造sql
         return SqlDataBO.builder()
-                .createTableSql(createTableSqlWithMySql)
-                .insertSql("insertSql")
+                .createTableSql(createTableSql)
+                .insertSql(insertSql)
                 .build();
     }
 }

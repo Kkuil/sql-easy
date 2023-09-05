@@ -1,6 +1,7 @@
 package com.kkuil.sqleasy.exception.handler;
 
 import com.kkuil.sqleasy.exception.NecessaryFieldsIsEmptyException;
+import com.kkuil.sqleasy.exception.SqlException;
 import com.kkuil.sqleasy.utils.ResultUtil;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,17 @@ public class BusinessExceptionHandler {
      * @description 必要字段为空异常
      */
     @ExceptionHandler(value = NecessaryFieldsIsEmptyException.class)
-    public ResultUtil<Boolean> handleAuthException(NecessaryFieldsIsEmptyException e) {
+    public ResultUtil<Boolean> handleNecessaryFieldsIsEmptyException(NecessaryFieldsIsEmptyException e) {
+        return ResultUtil.error(e.getMessage(), false);
+    }
+
+    /**
+     * @param e SqlException
+     * @return ResultUtil<Boolean>
+     * @description sql异常
+     */
+    @ExceptionHandler(value = SqlException.class)
+    public ResultUtil<Boolean> handleSqlException(SqlException e) {
         return ResultUtil.error(e.getMessage(), false);
     }
 }
