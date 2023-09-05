@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author Kkuil
@@ -13,10 +14,11 @@ import org.aspectj.lang.annotation.Pointcut;
  * @Description 验参切面类
  */
 @Aspect
+@Component
 @Slf4j
 public class ValidateAspect {
 
-    @Pointcut("@anotation(com.kkuil.sqleasy.anotations.Validate)")
+    @Pointcut("@annotation(com.kkuil.sqleasy.anotations.Validate)")
     public void validate() {}
 
     @Before("validate()")

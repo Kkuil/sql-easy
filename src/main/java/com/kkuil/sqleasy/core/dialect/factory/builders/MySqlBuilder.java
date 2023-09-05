@@ -7,6 +7,10 @@ import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 import com.kkuil.sqleasy.core.model.vo.GeneratedAllDataVO;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author Kkuil
  * @Date 2023/9/4 20:54
@@ -21,11 +25,14 @@ public class MySqlBuilder implements IDialectBuilder<GeneratedAllDataVO> {
      */
     @Override
     public GeneratedAllDataVO build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
-        // 1. 构建代码数据
+        // 1. 生成模拟数据
+        List<Map<String, Object>> dataListMap = buildData(dataGenerateConfigInfoDTO);
+        dataGenerateConfigInfoDTO.setMockData(dataListMap);
+        // 2. 构建代码数据
         CodeDataBO codeDataBO = buildCode(dataGenerateConfigInfoDTO);
-        // 2. 构建sql数据
+        // 3. 构建sql数据
         SqlDataBO sqlDataBO = buildSql(dataGenerateConfigInfoDTO);
-        // 3. 组装数据
+        // 4. 组装数据
         GeneratedAllDataVO generatedAllDataVO = GeneratedAllDataVO.builder()
                 .createTableSql(sqlDataBO.getCreateTableSql())
                 .insertSql(sqlDataBO.getInsertSql())

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author Kkuil
  * @Date 2023/9/4 16:39
@@ -51,4 +54,9 @@ public class DataGenerateConfigInfoDTO {
      */
     @NonNull
     private FieldInfoBO[] fields;
+
+    /**
+     * 模拟数据
+     */
+    private List<Map<String, Object>> mockData;
 }

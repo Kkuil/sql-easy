@@ -3,6 +3,9 @@ package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBu
 import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.AbstractSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author Kkuil
  * @Date 2023/9/4 23:19
@@ -38,6 +41,6 @@ public abstract class AbstractMySqlInsertSqlBuilder extends AbstractSqlBuilder {
      * @param fields 列信息
      * @return 列值
      */
-    public abstract String buildValues(int count, FieldInfoBO[] fields);
+    public abstract String buildValues(List<Map<String, Object>> dataListMap, FieldInfoBO[] fields);
 
 }

@@ -1,16 +1,13 @@
 package com.kkuil.sqleasy.core.dialect.builders.codeBuilders;
 
-import com.kkuil.sqleasy.anotations.Validate;
 import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import com.kkuil.sqleasy.core.model.bo.JavaEntityBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
-import com.kkuil.sqleasy.enums.ValidateRuleEnum;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.annotation.Resource;
-import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -39,7 +36,7 @@ public class JavaCodeBuilder implements IDataBuilder {
      * @return 数据
      */
     @Override
-    public String build(@NonNull @Validate(rule = "EMPTY", extra = "123") DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         // 数据转化
         // 1. 类名
         String clazz = dataGenerateConfigInfoDTO.getTable();
@@ -56,6 +53,7 @@ public class JavaCodeBuilder implements IDataBuilder {
                     .setComment(field.getComment());
             fieldList.add(fieldInfo);
         }
+        // 4. 构建参数
         JavaEntityBO javaEntityBO = JavaEntityBO.builder()
                 .clazz(clazz)
                 .comment(comment)

@@ -7,9 +7,12 @@ import com.kkuil.sqleasy.core.dialect.mockStrategy.IMockStrategyFactory;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.MockStrategyFactory;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
 import static com.kkuil.sqleasy.constant.GlobalConst.NEW_LINE_CHAR;
@@ -21,7 +24,7 @@ import static com.kkuil.sqleasy.constant.GlobalConst.NEW_LINE_CHAR;
  */
 public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
 
-    private static final IMockStrategyFactory MOCK_STRATEGY_FACTORY = new MockStrategyFactory();
+    public static final IMockStrategyFactory MOCK_STRATEGY_FACTORY = new MockStrategyFactory();
 
     /**
      * 生成模拟数据
@@ -32,11 +35,9 @@ public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
     @Override
     public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         Integer count = dataGenerateConfigInfoDTO.getCount();
-        FieldInfoBO[] fields = dataGenerateConfigInfoDTO.getFields();
         if (count <= 0) {
             return EMPTY_STR;
         }
-        StringBuilder insertStringBuilder = new StringBuilder();
         // 1. 数据库名
         String database = dataGenerateConfigInfoDTO.getDatabase();
         // 2. 表名
@@ -45,7 +46,7 @@ public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
         FieldInfoBO[] fieldsInfo = dataGenerateConfigInfoDTO.getFields();
         String columns = buildColumns(fieldsInfo);
         // 4. 模拟值
-        String values = buildValues(count, fieldsInfo);
+        String values = buildValues(dataGenerateConfigInfoDTO.getMockData(), fieldsInfo);
         // 5. 组合
         String insertSql = String.format(INSERT_SQL_TEMPLATE, database, table, columns, values);
         return insertSql;
@@ -74,24 +75,19 @@ public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
      * @return 列值
      */
     @Override
-    public String buildValues(int count, FieldInfoBO[] fields) {
-        // 1. 获取模拟数据
-        ArrayList<Object[]> datas = new ArrayList<>();
-        for (FieldInfoBO field : fields) {
-            IMockStrategy mockStrategy = MOCK_STRATEGY_FACTORY.produce(field.getMockDataType());
-            Object[] data = mockStrategy.getData(count, field);
-            datas.add(data);
-        }
-        // 2. 组合每一条数据
+    public String buildValues(@NonNull List<Map<String, Object>> dataListMap, FieldInfoBO[] fields) {
+        int size = dataListMap.size();
         StringBuilder valueStringBuilder = new StringBuilder();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < size; i++) {
             StringBuilder valuePerRecord = new StringBuilder();
-            ArrayList<String> valueList = new ArrayList<>();
+            List<String> valueList = new ArrayList<>();
             // 3. 取每一条数据
-            for (int j = 0; j < fields.length; j++) {
-                valueList.add(datas.get(j)[i].toString());
+            for (FieldInfoBO field : fields) {
+                String key = field.getName();
+                Object value = dataListMap.get(i).get(key);
+                valueList.add(value.toString());
             }
-            if (i == count - 1) {
+            if (i == size - 1) {
                 valuePerRecord
                         .append("(")
                         .append(ArrayUtil.join(valueList.toArray(), ","))
