@@ -7,7 +7,6 @@ import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 import com.kkuil.sqleasy.core.model.vo.GeneratedAllDataVO;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
