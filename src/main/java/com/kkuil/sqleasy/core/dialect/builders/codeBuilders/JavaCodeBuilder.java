@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Kkuil
@@ -33,10 +35,11 @@ public class JavaCodeBuilder implements IDataBuilder {
      * 生成数据
      *
      * @param dataGenerateConfigInfoDTO 生成数据配置信息
-     * @return 数据
+     * @param data                      模拟数据
+     * @return Java代码
      */
     @Override
-    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, List<Map<String, Object>> data) {
         // 数据转化
         // 1. 类名
         String clazz = dataGenerateConfigInfoDTO.getTable();

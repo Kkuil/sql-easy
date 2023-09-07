@@ -1,9 +1,9 @@
 package com.kkuil.sqleasy.core.model.dto;
 
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 方言
      */
-    @NonNull
+    @NotBlank(message = "方言不能为空")
     private String dialect;
 
     /**
@@ -30,7 +30,7 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 表名
      */
-    @NonNull
+    @NotBlank(message = "表名不能为空")
     private String table;
 
     /**
@@ -46,17 +46,13 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 生成的数据数量
      */
-    @NonNull
+    @NotBlank(message = "模拟数据数量不能为空")
     private Integer count;
 
     /**
      * 字段信息
      */
-    @NonNull
+    @NotBlank(message = "字段信息不能为空")
     private FieldInfoBO[] fields;
 
-    /**
-     * 模拟数据
-     */
-    private List<Map<String, Object>> mockData;
 }

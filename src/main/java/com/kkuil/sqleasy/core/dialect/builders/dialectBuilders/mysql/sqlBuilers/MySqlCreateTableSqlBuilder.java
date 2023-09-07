@@ -4,6 +4,9 @@ import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBui
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 
+import java.util.List;
+import java.util.Map;
+
 import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
 import static com.kkuil.sqleasy.constant.GlobalConst.SPACE_STR;
 import static com.kkuil.sqleasy.core.constant.GlobalConst.FIELD_INDENTATION;
@@ -22,7 +25,7 @@ public class MySqlCreateTableSqlBuilder extends AbstractMySqlCreateTableSqlBuild
      * @return 数据
      */
     @Override
-    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, List<Map<String, Object>> data) {
         // 1. 注释
         String comment = dataGenerateConfigInfoDTO.getComment();
         // 2. 数据库名

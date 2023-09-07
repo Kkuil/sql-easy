@@ -2,6 +2,7 @@ package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBu
 
 import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.AbstractSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @Author Kkuil
@@ -67,5 +68,5 @@ public abstract class AbstractMySqlCreateTableSqlBuilder extends AbstractSqlBuil
      * @param fieldInfoBOS 字段配置信息
      * @return 建表字段部分
      */
-    public abstract String buildFields(FieldInfoBO[] fieldInfoBOS);
+    public abstract String buildFields(@NotBlank(message = "字段信息不能为空") FieldInfoBO[] fieldInfoBOS);
 }

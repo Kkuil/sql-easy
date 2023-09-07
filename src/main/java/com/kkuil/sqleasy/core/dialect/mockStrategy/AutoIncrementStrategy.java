@@ -16,6 +16,7 @@ public class AutoIncrementStrategy implements IMockStrategy {
 
     /**
      * 获取值
+     *
      * @param count 模拟数量
      * @param field 类配置信息
      * @return 数据

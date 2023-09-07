@@ -17,7 +17,6 @@ import java.util.Map;
  * @Description MySQL构造器
  */
 public class MySqlBuilder implements IDialectBuilder<GeneratedAllDataVO> {
-
     /**
      * 构造数据
      *
@@ -26,12 +25,11 @@ public class MySqlBuilder implements IDialectBuilder<GeneratedAllDataVO> {
     @Override
     public GeneratedAllDataVO build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         // 1. 生成模拟数据
-        List<Map<String, Object>> dataListMap = buildData(dataGenerateConfigInfoDTO);
-        dataGenerateConfigInfoDTO.setMockData(dataListMap);
+        List<Map<String, Object>> data = buildData(dataGenerateConfigInfoDTO);
         // 2. 构建代码数据
-        CodeDataBO codeDataBO = buildCode(dataGenerateConfigInfoDTO);
+        CodeDataBO codeDataBO = buildCode(dataGenerateConfigInfoDTO, data);
         // 3. 构建sql数据
-        SqlDataBO sqlDataBO = buildSql(dataGenerateConfigInfoDTO);
+        SqlDataBO sqlDataBO = buildSql(dataGenerateConfigInfoDTO, data);
         // 4. 组装数据
         GeneratedAllDataVO generatedAllDataVO = GeneratedAllDataVO.builder()
                 .createTableSql(sqlDataBO.getCreateTableSql())
@@ -49,16 +47,16 @@ public class MySqlBuilder implements IDialectBuilder<GeneratedAllDataVO> {
      * @return SqlDataBO
      */
     @Override
-    public SqlDataBO buildSql(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+    public SqlDataBO buildSql(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, List<Map<String, Object>> data) {
         // 1. 建表语句构造器
         MySqlCreateTableSqlBuilder createTableSqlBuilder = new MySqlCreateTableSqlBuilder();
         // 2. 生成建表语句
-        String createTableSql = createTableSqlBuilder.build(dataGenerateConfigInfoDTO);
+        String createTableSql = createTableSqlBuilder.build(dataGenerateConfigInfoDTO, data);
 
         // 1. 插入语句构造器
         MySqlInsertSqlBuilder insertSqlBuilder = new MySqlInsertSqlBuilder();
         // 2. 生成建表语句
-        String insertSql = insertSqlBuilder.build(dataGenerateConfigInfoDTO);
+        String insertSql = insertSqlBuilder.build(dataGenerateConfigInfoDTO, data);
         // 构造sql
         return SqlDataBO.builder()
                 .createTableSql(createTableSql)

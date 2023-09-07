@@ -1,5 +1,6 @@
 package com.kkuil.sqleasy.core.dialect.factory.builders;
 
+import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.JavaCodeBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.JsonCodeBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.TypescriptCodeBuilder;
@@ -8,7 +9,9 @@ import com.kkuil.sqleasy.core.model.bo.CodeDataBO;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
+import jakarta.validation.constraints.NotBlank;
 import lombok.NonNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +41,7 @@ public interface IDialectBuilder<T> {
      * @param dataGenerateConfigInfoDTO 生成数据配置信息
      * @return SqlDataBO
      */
-    SqlDataBO buildSql(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO);
+    SqlDataBO buildSql(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, @NotBlank(message = "模拟数据不能为空") List<Map<String, Object>> data);
 
     /**
      * 代码构造器
@@ -46,18 +49,18 @@ public interface IDialectBuilder<T> {
      * @param dataGenerateConfigInfoDTO 生成数据配置信息
      * @return CodeDataBO
      */
-    default CodeDataBO buildCode(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+    default CodeDataBO buildCode(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, @NotBlank(message = "模拟数据不能为空") List<Map<String, Object>> data) {
         // 1. java代码
-        JavaCodeBuilder javaCodeBuilder = new JavaCodeBuilder();
-        String javaCode = javaCodeBuilder.build(dataGenerateConfigInfoDTO);
+        IDataBuilder javaCodeBuilder = new JavaCodeBuilder();
+        String javaCode = javaCodeBuilder.build(dataGenerateConfigInfoDTO, data);
 
         // 2. json代码
-        JsonCodeBuilder jsonCodeBuilder = new JsonCodeBuilder();
-        String jsonCode = jsonCodeBuilder.build(dataGenerateConfigInfoDTO);
+        IDataBuilder jsonCodeBuilder = new JsonCodeBuilder();
+        String jsonCode = jsonCodeBuilder.build(dataGenerateConfigInfoDTO, data);
 
         // 3. typescript代码
-        TypescriptCodeBuilder typescriptCodeBuilder = new TypescriptCodeBuilder();
-        String typescriptCode = typescriptCodeBuilder.build(dataGenerateConfigInfoDTO);
+        IDataBuilder typescriptCodeBuilder = new TypescriptCodeBuilder();
+        String typescriptCode = typescriptCodeBuilder.build(dataGenerateConfigInfoDTO, data);
         CodeDataBO codeDataBO = CodeDataBO.builder()
                 .javaCode(javaCode)
                 .jsonCode(jsonCode)

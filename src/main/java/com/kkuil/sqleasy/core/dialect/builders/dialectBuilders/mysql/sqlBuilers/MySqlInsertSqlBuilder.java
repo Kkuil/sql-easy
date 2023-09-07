@@ -33,7 +33,7 @@ public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
      * @return 数据
      */
     @Override
-    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
+    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, List<Map<String, Object>> data) {
         Integer count = dataGenerateConfigInfoDTO.getCount();
         if (count <= 0) {
             return EMPTY_STR;
@@ -46,7 +46,7 @@ public class MySqlInsertSqlBuilder extends AbstractMySqlInsertSqlBuilder {
         FieldInfoBO[] fieldsInfo = dataGenerateConfigInfoDTO.getFields();
         String columns = buildColumns(fieldsInfo);
         // 4. 模拟值
-        String values = buildValues(dataGenerateConfigInfoDTO.getMockData(), fieldsInfo);
+        String values = buildValues(data, fieldsInfo);
         // 5. 组合
         String insertSql = String.format(INSERT_SQL_TEMPLATE, database, table, columns, values);
         return insertSql;

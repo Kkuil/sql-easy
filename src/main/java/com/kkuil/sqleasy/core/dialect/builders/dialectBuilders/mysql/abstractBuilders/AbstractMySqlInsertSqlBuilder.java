@@ -2,6 +2,7 @@ package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBu
 
 import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.AbstractSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Map;
@@ -32,15 +33,16 @@ public abstract class AbstractMySqlInsertSqlBuilder extends AbstractSqlBuilder {
      * @param fields 列信息
      * @return 列名
      */
-    public abstract String buildColumns(FieldInfoBO[] fields);
+    public abstract String buildColumns(@NotBlank(message = "字段信息不能为空") FieldInfoBO[] fields);
+
 
     /**
      * 构建列值
      *
-     * @param count  模拟数量
-     * @param fields 列信息
-     * @return 列值
+     * @param dataListMap 模拟数据
+     * @param fields      字段信息
+     * @return 模拟数据列字符串
      */
-    public abstract String buildValues(List<Map<String, Object>> dataListMap, FieldInfoBO[] fields);
+    public abstract String buildValues(@NotBlank(message = "模拟数据不能为空") List<Map<String, Object>> dataListMap, @NotBlank(message = "字段信息不能为空") FieldInfoBO[] fields);
 
 }
