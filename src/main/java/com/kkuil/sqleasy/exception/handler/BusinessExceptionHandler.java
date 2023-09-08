@@ -6,6 +6,7 @@ import com.kkuil.sqleasy.utils.ResultUtil;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -33,6 +34,16 @@ public class BusinessExceptionHandler {
      */
     @ExceptionHandler(value = SqlException.class)
     public ResultUtil<Boolean> handleSqlException(SqlException e) {
+        return ResultUtil.error(e.getMessage(), false);
+    }
+
+    /**
+     * @param e MethodArgumentNotValidException
+     * @return ResultUtil<Boolean>
+     * @description 验证异常
+     */
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResultUtil<Boolean> handleValidateException(MethodArgumentNotValidException e) {
         return ResultUtil.error(e.getMessage(), false);
     }
 }

@@ -1,11 +1,9 @@
 package com.kkuil.sqleasy.core.model.bo;
 
-import com.alibaba.excel.annotation.ExcelProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 
 /**
  * @Author Kkuil
