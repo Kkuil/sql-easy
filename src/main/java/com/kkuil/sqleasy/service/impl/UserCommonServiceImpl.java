@@ -11,7 +11,7 @@ import com.kkuil.sqleasy.model.dto.userCommon.UserRegistryDTO;
 import com.kkuil.sqleasy.model.entity.User;
 import com.kkuil.sqleasy.service.IUserCommonService;
 import com.kkuil.sqleasy.service.IUserService;
-import com.kkuil.sqleasy.utils.JwtUtils;
+import com.kkuil.sqleasy.utils.JwtUtil;
 import com.kkuil.sqleasy.utils.ResultUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class UserCommonServiceImpl implements IUserCommonService {
         }
         Map<String, Object> tokenMap = new HashMap<>(8);
         tokenMap = BeanUtil.beanToMap(mapDataInTokenBO, tokenMap, false, true);
-        String token = JwtUtils.create(tokenMap, USER_TOKEN_SECRET, USER_TOKEN_TTL);
+        String token = JwtUtil.create(tokenMap, USER_TOKEN_SECRET, USER_TOKEN_TTL);
         return ResultUtil.success("登录成功", token);
     }
 

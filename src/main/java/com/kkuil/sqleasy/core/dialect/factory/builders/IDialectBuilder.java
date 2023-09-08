@@ -4,14 +4,14 @@ import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.JavaCodeBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.JsonCodeBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.codeBuilders.TypescriptCodeBuilder;
+import com.kkuil.sqleasy.core.dialect.builders.otherBuilders.ExcelExportBuilder;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.IMockStrategy;
 import com.kkuil.sqleasy.core.model.bo.CodeDataBO;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import com.kkuil.sqleasy.core.model.bo.OtherDataBO;
 import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 import jakarta.validation.constraints.NotBlank;
-import lombok.NonNull;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,20 +70,40 @@ public interface IDialectBuilder<T> {
     }
 
     /**
+     * 其他数据构造器
+     *
+     * @param dataGenerateConfigInfoDTO 配置信息
+     * @param data                      模拟数据
+     * @return 其他数据
+     */
+    default OtherDataBO buildOther(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, @NotBlank(message = "模拟数据不能为空") List<Map<String, Object>> data) {
+        OtherDataBO otherData = new OtherDataBO();
+
+        // 1. 获取excel下载地址
+        ExcelExportBuilder excelExportBuilder = new ExcelExportBuilder();
+        String excel = excelExportBuilder.build(dataGenerateConfigInfoDTO, data);
+
+        otherData.setExcel(excel);
+        return otherData;
+    }
+
+    /**
      * 模拟数据生成器
      *
      * @param dataGenerateConfigInfoDTO 生成数据配置信息
-     * @return List<Map<String, Object>>
+     * @return List<Map < String, Object>>
      */
     default List<Map<String, Object>> buildData(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO) {
         FieldInfoBO[] fields = dataGenerateConfigInfoDTO.getFields();
         int count = dataGenerateConfigInfoDTO.getCount();
         List<Object[]> dataList = new ArrayList<>();
+        // 1. 生成模拟数据
         for (FieldInfoBO field : fields) {
             IMockStrategy mockStrategy = MOCK_STRATEGY_FACTORY.produce(field.getMockDataType());
             Object[] data = mockStrategy.getData(count, field);
             dataList.add(data);
         }
+        // 2. 调整格式
         ArrayList<Map<String, Object>> dataListMap = new ArrayList<>();
         for (int i = 0; i < dataList.size(); i++) {
             HashMap<String, Object> dataMap = new HashMap<>(8);

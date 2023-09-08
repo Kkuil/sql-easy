@@ -1,7 +1,10 @@
 package com.kkuil.sqleasy.core.model.bo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 /**
@@ -10,18 +13,19 @@ import lombok.NonNull;
  * @Description 字段信息
  */
 @Data
+@EqualsAndHashCode
 @Builder
 public class FieldInfoBO {
     /**
      * 字段名
      */
-    @NonNull
+    @NotBlank(message = "字段名不能为空")
     private String name;
 
     /**
      * 字段类型
      */
-    @NonNull
+    @NotBlank(message = "字段类型不能为空")
     private String type;
 
     /**

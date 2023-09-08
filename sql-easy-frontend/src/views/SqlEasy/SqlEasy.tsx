@@ -1,5 +1,5 @@
 export function SqlEasy() {
 	return (
-		<div>SqlEasy</div>
+		<div className="sql-easy">SqlEasy123</div>
 	)
 }

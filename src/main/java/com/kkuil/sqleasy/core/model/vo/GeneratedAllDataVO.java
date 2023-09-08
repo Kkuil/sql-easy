@@ -35,4 +35,9 @@ public class GeneratedAllDataVO {
      * typescript代码
      */
     private String typescriptCode;
+
+    /**
+     * excel下载地址
+     */
+    private String excel;
 }

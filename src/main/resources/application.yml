@@ -45,3 +45,7 @@ knife4j:
     enable: true
     setting:
         language: zh_cn
+aliyun:
+    oss:
+        endpoint: ${self.aliyun.oss.endpoint}
+        bucket-name: ${self.aliyun.oss.bucket-name}

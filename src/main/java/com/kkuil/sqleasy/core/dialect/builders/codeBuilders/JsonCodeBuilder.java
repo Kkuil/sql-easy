@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.IDataBuilder;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class JsonCodeBuilder implements IDataBuilder {
      * @return 数据
      */
     @Override
-    public String build(@Validated DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, List<Map<String, Object>> data) {
+    public String build(DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO, List<Map<String, Object>> data) {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();

@@ -3,9 +3,11 @@ import router from "@/router/index.tsx"
 
 function App() {
 	return (
-		<RouterProvider
-			router={router}
-		/>
+		<>
+			<RouterProvider
+				router={router}
+			/>
+		</>
 	)
 }
 

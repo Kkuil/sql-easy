@@ -3,6 +3,7 @@ package com.kkuil.sqleasy.core.dialect.factory.builders;
 import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers.MySqlCreateTableSqlBuilder;
 import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers.MySqlInsertSqlBuilder;
 import com.kkuil.sqleasy.core.model.bo.CodeDataBO;
+import com.kkuil.sqleasy.core.model.bo.OtherDataBO;
 import com.kkuil.sqleasy.core.model.bo.SqlDataBO;
 import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 import com.kkuil.sqleasy.core.model.vo.GeneratedAllDataVO;
@@ -29,13 +30,16 @@ public class MySqlBuilder implements IDialectBuilder<GeneratedAllDataVO> {
         CodeDataBO codeDataBO = buildCode(dataGenerateConfigInfoDTO, data);
         // 3. 构建sql数据
         SqlDataBO sqlDataBO = buildSql(dataGenerateConfigInfoDTO, data);
-        // 4. 组装数据
+        // 4. 构建其他数据
+        OtherDataBO otherDataBO = buildOther(dataGenerateConfigInfoDTO, data);
+        // 5. 组装数据
         GeneratedAllDataVO generatedAllDataVO = GeneratedAllDataVO.builder()
                 .createTableSql(sqlDataBO.getCreateTableSql())
                 .insertSql(sqlDataBO.getInsertSql())
                 .jsonCode(codeDataBO.getJsonCode())
                 .javaCode(codeDataBO.getJavaCode())
                 .typescriptCode(codeDataBO.getTypescriptCode())
+                .excel(otherDataBO.getExcel())
                 .build();
         return generatedAllDataVO;
     }

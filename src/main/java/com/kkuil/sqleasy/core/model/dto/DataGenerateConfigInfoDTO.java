@@ -54,5 +54,4 @@ public class DataGenerateConfigInfoDTO {
      */
     @NotBlank(message = "字段信息不能为空")
     private FieldInfoBO[] fields;
-
 }
