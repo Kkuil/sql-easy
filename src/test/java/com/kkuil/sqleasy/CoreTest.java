@@ -148,7 +148,7 @@ public class CoreTest {
                     .primary(true)
                     .autoIncrement(false)
                     .mockDataType(MockDataTypeEnum.RANDOM.getId())
-                    .extraInfo(1001)
+                    .extraInfo(1000 + i)
                     .build();
             fieldInfoBOS.add(field);
         }

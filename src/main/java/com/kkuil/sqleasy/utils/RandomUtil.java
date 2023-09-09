@@ -130,4 +130,41 @@ public class RandomUtil {
         int index = cn.hutool.core.util.RandomUtil.randomInt(0, names.length);
         return names[index];
     }
+
+    /**
+     * 生成随机网址
+     *
+     * @return 随机网址
+     */
+    public static String randomWebsite() {
+        // 协议
+        String[] protocols = {
+                "http",
+                "https",
+        };
+        // 顶级域名
+        String[] firstDomain = {
+                "com",
+                "cn",
+                "site",
+                "love",
+                "edu",
+                "gov",
+                "org",
+                "vip",
+                "abc",
+        };
+        // 随机协议索引
+        int proIndex = cn.hutool.core.util.RandomUtil.randomInt(0, protocols.length);
+        // 随机顶级域名索引
+        int domainIndex = cn.hutool.core.util.RandomUtil.randomInt(0, firstDomain.length);
+        // 随机二级域名个数
+        int count = cn.hutool.core.util.RandomUtil.randomInt(0, 8);
+        StringBuilder secondDomain = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            char c = cn.hutool.core.util.RandomUtil.randomChar("qwertyuiopasddfghjklzxcvbnm");
+            secondDomain.append(c);
+        }
+        return protocols[proIndex] + "://" + "www." + secondDomain.toString() + "." + firstDomain[domainIndex];
+    }
 }
