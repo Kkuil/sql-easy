@@ -1,6 +1,7 @@
 package com.kkuil.sqleasy.core.dialect.mockStrategy;
 
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @Author Kkuil
@@ -16,5 +17,5 @@ public interface IMockStrategy {
      * @param field 字段配置信息
      * @return 数据
      */
-    Object[] getData(int count, FieldInfoBO field);
+    Object[] getData(int count, @NotBlank(message = "字段信息不能为空") FieldInfoBO field);
 }

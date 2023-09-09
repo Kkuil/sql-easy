@@ -26,6 +26,9 @@ public class CoreTest {
     @Resource
     private IDataGenerateService dataGenerateService;
 
+    /**
+     * 测试MySQL建表语句
+     */
     @Test
     void testCreateTableSqlWithMySql() {
         ArrayList<FieldInfoBO> fieldInfoBOS = new ArrayList<>();
@@ -57,6 +60,9 @@ public class CoreTest {
         log.info("generate: {}", generate);
     }
 
+    /**
+     * 测试自增策略
+     */
     @Test
     void testAutoIncrementStrategy() {
         ArrayList<FieldInfoBO> fieldInfoBOS = new ArrayList<>();
@@ -89,4 +95,38 @@ public class CoreTest {
         log.info("generate: {}", generate);
     }
 
+    /**
+     * 测试空值策略
+     */
+    @Test
+    void testNullStrategy() {
+        ArrayList<FieldInfoBO> fieldInfoBOS = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            FieldInfoBO field = FieldInfoBO.builder()
+                    .name("test")
+                    .type("test")
+                    .defaultValue("test")
+                    .comment("test")
+                    .onUpdate(true)
+                    .nonNull(true)
+                    .unique(true)
+                    .primary(true)
+                    .autoIncrement(false)
+                    .mockDataType(MockDataTypeEnum.NON.getId())
+                    .extraInfo(0)
+                    .build();
+            fieldInfoBOS.add(field);
+        }
+        DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO = DataGenerateConfigInfoDTO.builder()
+                .dialect("mysql")
+                .database("test")
+                .engine("test")
+                .comment("test")
+                .count(20)
+                .table("test")
+                .fields(ArrayUtil.toArray(fieldInfoBOS, FieldInfoBO.class))
+                .build();
+        ResultUtil<GeneratedAllDataVO> generate = dataGenerateService.generate(dataGenerateConfigInfoDTO);
+        log.info("generate: {}", generate);
+    }
 }

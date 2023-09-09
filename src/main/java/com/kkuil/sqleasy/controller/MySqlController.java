@@ -20,7 +20,6 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/mysql")
 public class MySqlController {
-
     /**
      * 获取字段类型列表
      *
@@ -35,5 +34,4 @@ public class MySqlController {
                 .toList();
         return ResultUtil.success(list);
     }
-
 }
