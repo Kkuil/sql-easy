@@ -1,5 +1,8 @@
 package com.kkuil.sqleasy.core.dialect.mockStrategy;
 
+import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.IMockRandomStrategy;
+import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.IMockRandomStrategyFactory;
+import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.MockRandomStrategyFactory;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 
 /**
@@ -8,6 +11,12 @@ import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
  * @Description 随机策略
  */
 public class RandomStrategy implements IMockStrategy {
+
+    /**
+     * 模拟随机策略工厂
+     */
+    public static final IMockRandomStrategyFactory MOCK_RANDOM_STRATEGY_FACTORY = new MockRandomStrategyFactory();
+
     /**
      * 获取值
      *
@@ -16,7 +25,13 @@ public class RandomStrategy implements IMockStrategy {
      * @return 数据
      */
     @Override
-    public Object[] getData(int count, FieldInfoBO field) {
-        return new Object[0];
+    public String[] getData(int count, FieldInfoBO field) {
+        // 1. 获取额外信息（随机策略）
+        Object randomStrategyId = field.getExtraInfo();
+        // 2. 从随机工厂中获取随机数据加载器
+        IMockRandomStrategy strategy = MOCK_RANDOM_STRATEGY_FACTORY.produce((Integer) randomStrategyId);
+        // 3. 获取随机数据，返回
+        String[] randomData = strategy.getRandomData(count);
+        return randomData;
     }
 }

@@ -140,7 +140,7 @@ public enum MySqlFieldTypeEnum {
         Arrays.stream(MySqlFieldTypeEnum.values()).forEach(field -> {
             SqlFieldVO sqlFieldVO = new SqlFieldVO();
             sqlFieldVO.setId(field.getId())
-                    .setType(field.getType());
+                    .setName(field.getType());
             list.add(sqlFieldVO);
         });
         return list;

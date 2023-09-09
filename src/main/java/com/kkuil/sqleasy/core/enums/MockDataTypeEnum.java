@@ -36,7 +36,12 @@ public enum MockDataTypeEnum {
     /**
      * 不模拟
      */
-    NON(1006, "不模拟");
+    NON(1006, "不模拟"),
+
+    /**
+     * 默认策略
+     */
+    DEFAULT(1007, "默认");
 
     /**
      * ID

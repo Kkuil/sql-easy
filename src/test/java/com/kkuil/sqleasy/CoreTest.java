@@ -129,4 +129,39 @@ public class CoreTest {
         ResultUtil<GeneratedAllDataVO> generate = dataGenerateService.generate(dataGenerateConfigInfoDTO);
         log.info("generate: {}", generate);
     }
+
+    /**
+     * 测试随机策略
+     */
+    @Test
+    void testRandomStrategy() {
+        ArrayList<FieldInfoBO> fieldInfoBOS = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            FieldInfoBO field = FieldInfoBO.builder()
+                    .name("test" + i)
+                    .type("test")
+                    .defaultValue("test")
+                    .comment("test")
+                    .onUpdate(true)
+                    .nonNull(true)
+                    .unique(true)
+                    .primary(true)
+                    .autoIncrement(false)
+                    .mockDataType(MockDataTypeEnum.RANDOM.getId())
+                    .extraInfo(1001)
+                    .build();
+            fieldInfoBOS.add(field);
+        }
+        DataGenerateConfigInfoDTO dataGenerateConfigInfoDTO = DataGenerateConfigInfoDTO.builder()
+                .dialect("mysql")
+                .database("test")
+                .engine("test")
+                .comment("test")
+                .count(20)
+                .table("test")
+                .fields(ArrayUtil.toArray(fieldInfoBOS, FieldInfoBO.class))
+                .build();
+        ResultUtil<GeneratedAllDataVO> generate = dataGenerateService.generate(dataGenerateConfigInfoDTO);
+        log.info("generate: {}", generate);
+    }
 }

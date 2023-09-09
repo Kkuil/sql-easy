@@ -2,7 +2,6 @@ package com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.sqlBuilers
 
 import cn.hutool.core.util.ArrayUtil;
 import com.kkuil.sqleasy.core.dialect.builders.dialectBuilders.mysql.abstractBuilders.AbstractMySqlInsertSqlBuilder;
-import com.kkuil.sqleasy.core.dialect.mockStrategy.IMockStrategy;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.IMockStrategyFactory;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.MockStrategyFactory;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
@@ -10,7 +9,6 @@ import com.kkuil.sqleasy.core.model.dto.DataGenerateConfigInfoDTO;
 import lombok.NonNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
