@@ -13,8 +13,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
 
 /**
  * @Author Kkuil
@@ -23,6 +26,46 @@ import java.util.Map;
  */
 @Component
 public class TypescriptCodeBuilder implements IDataBuilder {
+
+
+    /**
+     * MySQL字段类型与Typescript类型的映射关系
+     */
+    public static final Map<String, String> MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE = new HashMap<>(8);
+
+    /**
+     * 默认类型
+     */
+    public static final String DEFAULT_TYPE = "string";
+
+    // 初始化
+    static {
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("tinyint", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("smallint", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("mediumint", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("int", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("bigint", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("float", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("double", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("decimal", "number");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("date", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("time", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("datetime", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("timestamp", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("char", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("varchar", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("tinytext", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("text", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("mediumtext", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("longtext", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("tinyblob", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("blob", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("mediumblob", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("longblob", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("binary", "string");
+        MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.put("varbinary", "string");
+    }
+
 
     private static Configuration configuration;
 
@@ -50,9 +93,14 @@ public class TypescriptCodeBuilder implements IDataBuilder {
         FieldInfoBO[] fields = dataGenerateConfigInfoDTO.getFields();
         for (FieldInfoBO field : fields) {
             TypescriptCodeBO.FieldInfo fieldInfo = new TypescriptCodeBO.FieldInfo();
+            String sqlType = field.getType().toLowerCase();
+            String type = MYSQL_FIELD_TYPE_MAP_TYPESCRIPT_TYPE.get(sqlType);
+            if (EMPTY_STR.equals(type) || null == type) {
+                type = DEFAULT_TYPE;
+            }
             fieldInfo
                     .setName(field.getName())
-                    .setType(field.getType())
+                    .setType(type)
                     .setComment(field.getComment());
             fieldList.add(fieldInfo);
         }

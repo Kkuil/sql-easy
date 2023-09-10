@@ -167,4 +167,49 @@ public class RandomUtil {
         }
         return protocols[proIndex] + "://" + "www." + secondDomain.toString() + "." + firstDomain[domainIndex];
     }
+
+    /**
+     * 生成随机电话号码
+     *
+     * @return 随机电话号码
+     */
+    public static String randomPhone() {
+        // 1. 第一位
+        StringBuilder phone = new StringBuilder("1");
+        // 2. 第二位
+        int second = cn.hutool.core.util.RandomUtil.randomInt(3, 9);
+        phone.append(second);
+        // 3. 第三 - 十一位
+        for (int i = 0; i < 9; i++) {
+            int remain = cn.hutool.core.util.RandomUtil.randomInt(0, 9);
+            phone.append(remain);
+        }
+        return phone.toString();
+    }
+
+    /**
+     * 生成随机大学名
+     *
+     * @return 随机大学名
+     */
+    public static String randomUniversity() {
+        String[] universities = {
+                "国防科技大学",
+                "北京大学",
+                "清华大学",
+                "浙江大学",
+                "北京邮电大学",
+                "南京邮电大学",
+                "北京师范大学",
+                "杭州师范大学",
+                "南昌大学",
+                "重庆大学",
+                "深圳大学",
+                "纽约大学",
+                "北京戏剧学院",
+                "牛津大学",
+        };
+        int index = cn.hutool.core.util.RandomUtil.randomInt(0, universities.length);
+        return universities[index];
+    }
 }

@@ -5,6 +5,10 @@ import com.kkuil.sqleasy.core.enums.MockRandomDataEnum;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author Kkuil
@@ -29,7 +33,6 @@ public class MockRandomStrategyFactory implements IMockRandomStrategyFactory {
         MOCK_RAMDOM_STRATEGY_MAP.put(MockRandomDataEnum.UNIVERSITY.getId(), new RandomUniversityStrategy());
         MOCK_RAMDOM_STRATEGY_MAP.put(MockRandomDataEnum.DEFAULT.getId(), new RandomDefaultStrategy());
     }
-
 
     /**
      * 生产模拟数据随机策略

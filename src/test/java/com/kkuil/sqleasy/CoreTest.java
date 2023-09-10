@@ -136,7 +136,7 @@ public class CoreTest {
     @Test
     void testRandomStrategy() {
         ArrayList<FieldInfoBO> fieldInfoBOS = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             FieldInfoBO field = FieldInfoBO.builder()
                     .name("test" + i)
                     .type("test")

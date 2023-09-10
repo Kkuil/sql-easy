@@ -23,7 +23,7 @@ public class RandomNameStrategy implements IMockRandomStrategy{
     public String[] getRandomData(int count) {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            String name = RandomUtil.randomName();
+            String name = RandomUtil.randomPhone();
             list.add(name);
         }
         return ArrayUtil.toArray(list, String.class);
