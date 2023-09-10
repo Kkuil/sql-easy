@@ -1,13 +1,16 @@
-import {LogoutOutlined,} from "@ant-design/icons"
+import {LoginOutlined, LogoutOutlined,} from "@ant-design/icons"
 import type {ProSettings} from "@ant-design/pro-components"
 import {ProConfigProvider, ProLayout,} from "@ant-design/pro-components"
 import {ConfigProvider, Dropdown,} from "antd"
 import {useState} from "react"
 import defaultProps from "./_defaultProps.tsx"
 import {Outlet, useNavigate} from "react-router"
+import {store} from "@/store"
+import {TOKEN_KEY_IN_LOCAL_STORAGE} from "@/constant/user.ts"
 
 export function Layout() {
 	const navigateTo = useNavigate()
+	const [count, setCount] = useState(0)
 	const [settings] = useState<Partial<ProSettings> | undefined>({
 		layout: "top",
 		splitMenus: true,
@@ -17,6 +20,22 @@ export function Layout() {
 	if (typeof document === "undefined") {
 		return <div/>
 	}
+
+	/**
+	 * 退出登录
+	 */
+	const logout = () => {
+		localStorage.removeItem(TOKEN_KEY_IN_LOCAL_STORAGE)
+	}
+
+	/**
+	 * 去登录
+	 */
+	const login = () => {
+		navigateTo("/login")
+	}
+
+	store.subscribe(() => setCount(count + 1))
 	return (
 		<div
 			id="test-pro-layout"
@@ -69,7 +88,7 @@ export function Layout() {
 						avatarProps={{
 							src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
 							size: "small",
-							title: "Kkuil",
+							title: store.getState().user.info.username ? store.getState().user.info.username : "未登录",
 							render: (_, dom) => {
 								return (
 									<Dropdown
@@ -78,9 +97,14 @@ export function Layout() {
 												{
 													key: "logout",
 													icon: <LogoutOutlined/>,
-													label: "退出登录",
+													label: <a onClick={logout}>退出登录</a>,
 												},
-											],
+												{
+													key: "login",
+													icon: <LoginOutlined/>,
+													label: <a onClick={login}>去登录</a>,
+												},
+											].slice(store.getState().user.info.username ? 0 : 1, 2),
 										}}
 									>
 										{dom}

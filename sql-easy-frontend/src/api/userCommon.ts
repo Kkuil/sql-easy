@@ -1,5 +1,5 @@
 import request from "@/utils/request.ts"
-import {TLogin, TRegistry} from "@/types/user"
+import {TLogin, TRegistry, TUserInfo} from "@/types/user"
 import {TResult} from "@/types/type"
 
 /**
@@ -29,5 +29,15 @@ export const registry = (registryInfo: TRegistry): Promise<TResult<boolean>> => 
 			username: registryInfo.username,
 			password: registryInfo.password,
 		}
+	})
+}
+
+/**
+ *  获取用户信息
+ */
+export const auth = (): Promise<TResult<TUserInfo>> => {
+	return request({
+		url: "/auth",
+		method: "POST",
 	})
 }

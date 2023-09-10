@@ -13,8 +13,11 @@ export default createBrowserRouter([
 		errorElement: <NotFound/>,
 		children: [
 			{
+				path: "/",
+				element: <SqlEasy/>
+			},
+			{
 				path: "/sql-easy",
-				index: true,
 				element: <SqlEasy/>
 			},
 			{

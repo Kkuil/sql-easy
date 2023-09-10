@@ -9,17 +9,21 @@ import com.kkuil.sqleasy.model.bo.MapDataInTokenBO;
 import com.kkuil.sqleasy.model.dto.userCommon.UserLoginDTO;
 import com.kkuil.sqleasy.model.dto.userCommon.UserRegistryDTO;
 import com.kkuil.sqleasy.model.entity.User;
+import com.kkuil.sqleasy.model.vo.UserAuthInfoVO;
 import com.kkuil.sqleasy.service.IUserCommonService;
 import com.kkuil.sqleasy.service.IUserService;
 import com.kkuil.sqleasy.utils.JwtUtil;
 import com.kkuil.sqleasy.utils.ResultUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
+import static com.kkuil.sqleasy.aspect.AuthLoginAspect.USER_THREAD_LOCAL;
 import static com.kkuil.sqleasy.constant.UserConst.*;
 
 /**
@@ -52,7 +56,7 @@ public class UserCommonServiceImpl implements IUserCommonService {
         userQueryWrapper.eq("username", username);
         User user = userService.getOne(userQueryWrapper);
         if (user == null) {
-            return ResultUtil.error("用户不存在", null);
+            return ResultUtil.error("用户不存在，请先注册", null);
         }
         String pwdInTable = user.getPassword();
         String pwdInForm = DigestUtil.md5Hex(password + USER_ENCRYPT_VALUE);
@@ -75,7 +79,7 @@ public class UserCommonServiceImpl implements IUserCommonService {
      * @return 是否注册成功
      */
     @Override
-    public ResultUtil<Boolean> registry(UserRegistryDTO userRegistryDTO) {
+    public ResultUtil<Boolean> register(UserRegistryDTO userRegistryDTO) {
         boolean isAllNotEmpty = ObjectUtil.isAllNotEmpty(userRegistryDTO);
         if (!isAllNotEmpty) {
             throw new NecessaryFieldsIsEmptyException("必填字段为空异常");
@@ -96,5 +100,32 @@ public class UserCommonServiceImpl implements IUserCommonService {
                 .build();
         userService.save(newUser);
         return ResultUtil.success("注册成功", true);
+    }
+
+    /**
+     * 获取用户信息接口
+     *
+     * @return 用户信息
+     */
+    @Override
+    public ResultUtil<UserAuthInfoVO> auth(HttpServletResponse response) {
+        MapDataInTokenBO mapDataInTokenBO = USER_THREAD_LOCAL.get();
+        if (Objects.isNull(mapDataInTokenBO)) {
+            return ResultUtil.error(null);
+        }
+        String username = mapDataInTokenBO.getUsername();
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", username);
+        User user = userService.getOne(wrapper);
+        UserAuthInfoVO userAuthInfoVO = new UserAuthInfoVO();
+        userAuthInfoVO.setUsername(user.getUsername())
+                .setId(user.getId());
+        // 续签
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("username", user.getUsername());
+        map.put("id", user.getId());
+        String token = JwtUtil.create(map, USER_TOKEN_SECRET, USER_TOKEN_TTL);
+        response.setHeader(TOKEN_KEY_IN_HEADER, token);
+        return ResultUtil.success(userAuthInfoVO);
     }
 }

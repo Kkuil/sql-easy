@@ -9,3 +9,9 @@ export type TRegistry = {
 	username: string
 	password: string
 }
+
+// 用户信息
+export type TUserInfo = {
+	id: string
+	username: string
+}

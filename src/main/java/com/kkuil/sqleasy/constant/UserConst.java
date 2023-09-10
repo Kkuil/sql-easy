@@ -17,11 +17,6 @@ public class UserConst {
     public static final int USER_TOKEN_TTL = 30 * 60 * 1000;
 
     /**
-     * 用户token刷新时间
-     */
-    public static final int USER_TOKEN_REFRESH_TIME = 10 * 60 * 1000;
-
-    /**
      * 用户请求响应头中token的key
      */
     public static final String TOKEN_KEY_IN_HEADER = "Authorization";
