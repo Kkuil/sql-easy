@@ -1,10 +1,10 @@
 import axios from "axios"
 import {TOKEN_KEY_IN_HEADER, TOKEN_KEY_IN_HEADER_PREFIX, TOKEN_KEY_IN_LOCAL_STORAGE} from "@/constant/user.ts"
 
-const BASE_URL: string = import.meta.env.VITE_REQUEST_BASE_URL
-const BASE_PORT: number = import.meta.env.VITE_REQUEST_BASE_PORT
-const BASE_TIMEOUT: number = import.meta.env.VITE_REQUEST_TIMEOUT
-const BASE_PREFIX: string = import.meta.env.VITE_REQUEST_BASE_PREFIX
+const BASE_URL: string = "http://127.0.0.1"
+const BASE_PORT: number = 3017
+const BASE_TIMEOUT: number = 10000
+const BASE_PREFIX: string = "/sql-easy"
 
 console.log(BASE_URL, BASE_PORT, BASE_TIMEOUT, BASE_PREFIX)
 
