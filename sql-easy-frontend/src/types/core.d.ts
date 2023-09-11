@@ -5,8 +5,18 @@ export type TDataGenerateConfigInfo = {
 	table: string
 	engine?: string
 	comment?: string
-	count: string
+	count: number
 	fields: TDataGenerateFieldInfo[]
+}
+
+// 生成数据结果
+export type TDataGenerateResult = {
+	createTableSql: string
+	insertSql: string
+	jsonCode: string
+	javaCode: string
+	typescriptCode: string
+	excel: string
 }
 
 // 字段配置
@@ -15,11 +25,11 @@ export type TDataGenerateFieldInfo = {
 	type: string
 	defaultValue: string
 	comment: string
-	onUpdate: string
-	nonNull: string
-	unique: string
-	primary: string
-	autoIncrement: string
+	onUpdate: boolean
+	nonNull: boolean
+	unique: boolean
+	primary: boolean
+	autoIncrement: boolean
 	mockDataType: string
 	extraInfo: string
 }
