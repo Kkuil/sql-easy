@@ -105,10 +105,12 @@ public interface IDialectBuilder<T> {
         }
         // 2. 调整格式
         List<Map<String, Object>> dataListMap = new ArrayList<>();
-        for (int i = 0; i < dataGenerateConfigInfoDTO.getCount(); i++) {
+        for (int i = 0; i < count; i++) {
             Map<String, Object> dataMap = new HashMap<>(8);
             for (int j = 0; j < fields.length; j++) {
-                dataMap.put(fields[j].getName(), dataList.get(j)[i]);
+                String name = fields[j].getName();
+                Object value = dataList.get(j)[i];
+                dataMap.put(name, value);
             }
             dataListMap.add(dataMap);
         }

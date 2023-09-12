@@ -4,27 +4,23 @@ import {javascript} from "@codemirror/lang-javascript"
 import {sql} from "@codemirror/lang-sql"
 import {json} from "@codemirror/lang-json"
 import {java} from "@codemirror/lang-java"
-import {store} from "@/store"
-import {useState} from "react"
+import {RootState} from "@/store"
+import {useSelector} from "react-redux"
 
 export function GeneratedData() {
 
-	const [count, setCount] = useState<number>(0)
+	const {data} = useSelector((state: RootState) => state.core)
 
 	const onChange = (key: string) => {
 		console.log(key)
 	}
-
-	store.subscribe(() => {
-		setCount(count + 1)
-	})
 
 	const items: TabsProps["items"] = [
 		{
 			key: "createSql",
 			label: "建表语句",
 			children: <CodeMirror
-				value={store.getState().core.data.createTableSql}
+				value={data.createTableSql}
 				width="650px"
 				height="550px"
 				extensions={[sql()]}
@@ -36,7 +32,7 @@ export function GeneratedData() {
 			key: "insertSql",
 			label: "插入模拟数据",
 			children: <CodeMirror
-				value={store.getState().core.data.insertSql}
+				value={data.insertSql}
 				width="650px"
 				height="550px"
 				theme={"dark"}
@@ -48,7 +44,7 @@ export function GeneratedData() {
 			key: "json",
 			label: "JSON代码",
 			children: <CodeMirror
-				value={store.getState().core.data.jsonCode}
+				value={data.jsonCode}
 				width="650px"
 				height="550px"
 				theme={"dark"}
@@ -60,7 +56,7 @@ export function GeneratedData() {
 			key: "java",
 			label: "Java代码",
 			children: <CodeMirror
-				value={store.getState().core.data.javaCode}
+				value={data.javaCode}
 				width="650px"
 				height="550px"
 				theme={"dark"}
@@ -72,7 +68,7 @@ export function GeneratedData() {
 			key: "frontend",
 			label: "前端代码",
 			children: <CodeMirror
-				value={store.getState().core.data.typescriptCode}
+				value={data.typescriptCode}
 				width="650px"
 				height="550px"
 				theme={"dark"}
@@ -83,14 +79,14 @@ export function GeneratedData() {
 		{
 			key: "excel",
 			label: "excel文件",
-			children: <a href={store.getState().core.data.excel}>{store.getState().core.data.excel}</a>,
+			children: <a href={data.excel}>{data.excel}</a>,
 		},
 	]
 
 	return (
 		<>
 			{
-				store.getState().core.data.excel ?
+				data.excel ?
 					<Tabs defaultActiveKey="1" items={items} onChange={onChange}/> :
 					<Empty description="请先生成数据"/>
 			}
