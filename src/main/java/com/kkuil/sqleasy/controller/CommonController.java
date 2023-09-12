@@ -1,6 +1,8 @@
 package com.kkuil.sqleasy.controller;
 
+import com.kkuil.sqleasy.core.enums.MockDataTypeEnum;
 import com.kkuil.sqleasy.core.enums.MockRandomDataEnum;
+import com.kkuil.sqleasy.core.model.vo.MockDataVO;
 import com.kkuil.sqleasy.core.model.vo.MockRandomDataVO;
 import com.kkuil.sqleasy.utils.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,18 @@ import java.util.List;
 @RestController
 @Slf4j
 public class CommonController {
+
+    /**
+     * 获取策略列表
+     *
+     * @return 策略列表
+     */
+    @GetMapping("/mock-strategy/list")
+    public ResultUtil<List<MockDataVO>> listMockStrategy() {
+        List<MockDataVO> list = MockDataTypeEnum.collect();
+        return ResultUtil.success(list);
+    }
+
     /**
      * 获取随机策略列表
      *
@@ -25,7 +39,7 @@ public class CommonController {
      * @return 随机策略列表
      */
     @GetMapping("/random-strategy/list")
-    public ResultUtil<List<MockRandomDataVO>> listFieldInfo(String keyword) {
+    public ResultUtil<List<MockRandomDataVO>> listMockRandomStrategy(String keyword) {
         List<MockRandomDataVO> list = MockRandomDataEnum.collect()
                 .stream()
                 .filter(field -> StringUtils.contains(field.getName(), keyword))

@@ -1,5 +1,7 @@
 package com.kkuil.sqleasy.core.enums;
 
+import com.kkuil.sqleasy.core.model.vo.MockDataVO;
+
 import java.util.*;
 
 /**
@@ -22,21 +24,6 @@ public enum MockDataTypeEnum {
      * 自增
      */
     AUTO_INCREMENT(1003, "自增"),
-
-    /**
-     * 正则匹配
-     */
-    REGULAR(1004, "正则匹配"),
-
-    /**
-     * 词库
-     */
-    VOCABULARY(1005, "词库"),
-
-    /**
-     * 不模拟
-     */
-    NON(1006, "不模拟"),
 
     /**
      * 默认策略
@@ -71,13 +58,14 @@ public enum MockDataTypeEnum {
      *
      * @return key: value list
      */
-    public static List<Map<String, Object>> collect() {
-        ArrayList<Map<String, Object>> list = new ArrayList<>();
-        Arrays.stream(MockDataTypeEnum.values()).forEach(type -> {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("id", type.id);
-            map.put("name", type.name);
-            list.add(map);
+    public static List<MockDataVO> collect() {
+        List<MockDataVO> list = new ArrayList<>();
+        Arrays.stream(MockDataTypeEnum.values()).forEach(data -> {
+            MockDataVO mockDataVO = new MockDataVO();
+            mockDataVO
+                    .setId(data.getId())
+                    .setName(data.getName());
+            list.add(mockDataVO);
         });
         return list;
     }

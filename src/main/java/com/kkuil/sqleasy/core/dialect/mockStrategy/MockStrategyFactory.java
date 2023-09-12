@@ -1,14 +1,8 @@
 package com.kkuil.sqleasy.core.dialect.mockStrategy;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.kkuil.sqleasy.core.dialect.mockStrategy.AutoIncrementStrategy;
-import com.kkuil.sqleasy.core.dialect.mockStrategy.IMockStrategy;
-import com.kkuil.sqleasy.core.dialect.mockStrategy.IMockStrategyFactory;
-import com.kkuil.sqleasy.core.dialect.mockStrategy.NullStrategy;
-import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.IMockRandomStrategy;
 import com.kkuil.sqleasy.core.enums.MockDataTypeEnum;
 import com.kkuil.sqleasy.core.enums.MockRandomDataEnum;
-import io.jsonwebtoken.impl.crypto.MacProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +21,8 @@ public class MockStrategyFactory implements IMockStrategyFactory {
 
     static {
         MOCK_STRATEGY_MAP.put(MockDataTypeEnum.AUTO_INCREMENT.getId(), new AutoIncrementStrategy());
-        MOCK_STRATEGY_MAP.put(MockDataTypeEnum.NON.getId(), new NullStrategy());
         MOCK_STRATEGY_MAP.put(MockDataTypeEnum.RANDOM.getId(), new RandomStrategy());
-        MOCK_STRATEGY_MAP.put(MockDataTypeEnum.REGULAR.getId(), new RegularStrategy());
         MOCK_STRATEGY_MAP.put(MockDataTypeEnum.UNCHANGED.getId(), new UnchangedStrategy());
-        MOCK_STRATEGY_MAP.put(MockDataTypeEnum.VOCABULARY.getId(), new VocabularyStrategy());
         MOCK_STRATEGY_MAP.put(MockDataTypeEnum.DEFAULT.getId(), new DefaultStrategy());
     }
 

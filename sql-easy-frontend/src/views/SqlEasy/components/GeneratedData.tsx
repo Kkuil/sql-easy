@@ -5,12 +5,19 @@ import {sql} from "@codemirror/lang-sql"
 import {json} from "@codemirror/lang-json"
 import {java} from "@codemirror/lang-java"
 import {store} from "@/store"
+import {useState} from "react"
 
 export function GeneratedData() {
+
+	const [count, setCount] = useState<number>(0)
 
 	const onChange = (key: string) => {
 		console.log(key)
 	}
+
+	store.subscribe(() => {
+		setCount(count + 1)
+	})
 
 	const items: TabsProps["items"] = [
 		{

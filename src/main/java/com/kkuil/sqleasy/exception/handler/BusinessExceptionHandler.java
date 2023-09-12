@@ -3,6 +3,7 @@ package com.kkuil.sqleasy.exception.handler;
 import com.kkuil.sqleasy.exception.NecessaryFieldsIsEmptyException;
 import com.kkuil.sqleasy.exception.SqlException;
 import com.kkuil.sqleasy.utils.ResultUtil;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,16 @@ public class BusinessExceptionHandler {
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResultUtil<Boolean> handleValidateException(MethodArgumentNotValidException e) {
+        return ResultUtil.error(e.getMessage(), false);
+    }
+
+    /**
+     * @param e ConstraintViolationException
+     * @return ResultUtil<Boolean>
+     * @description 验证异常
+     */
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResultUtil<Boolean> handleValidateException(ConstraintViolationException e) {
         return ResultUtil.error(e.getMessage(), false);
     }
 }

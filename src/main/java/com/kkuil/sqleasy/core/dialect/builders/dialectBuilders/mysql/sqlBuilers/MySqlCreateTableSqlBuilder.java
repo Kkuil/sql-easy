@@ -49,8 +49,9 @@ public class MySqlCreateTableSqlBuilder extends AbstractMySqlCreateTableSqlBuild
     @Override
     public String buildFields(FieldInfoBO[] fields) {
         StringBuilder fieldStringBuilder = new StringBuilder();
-        for (FieldInfoBO field : fields) {
-            StringBuilder stringBuilder = new StringBuilder(FIELD_INDENTATION);
+        for (int i = 0; i < fields.length; i++) {
+            FieldInfoBO field = fields[i];
+            StringBuilder fieldBuilder = new StringBuilder(FIELD_INDENTATION);
             // 1. 表名
             String name = field.getName();
             // 2. 存储类型
@@ -69,7 +70,7 @@ public class MySqlCreateTableSqlBuilder extends AbstractMySqlCreateTableSqlBuild
             String comment = field.getComment();
             // 9. 同步更新
             Boolean onUpdate = field.getOnUpdate();
-            stringBuilder
+            fieldBuilder
                     .append(name)
                     .append(" ")
                     .append(type)
@@ -87,9 +88,11 @@ public class MySqlCreateTableSqlBuilder extends AbstractMySqlCreateTableSqlBuild
                     .append(onUpdate ? ON_UPDATE + SPACE_STR + DEFAULT_ON_UPDATE : EMPTY_STR)
                     .append(" ")
                     .append(EMPTY_STR.equals(comment) ? EMPTY_STR : COMMENT + SPACE_STR + comment)
-                    .append(SPLIT_CHAR)
-                    .append("\n");
-            fieldStringBuilder.append(stringBuilder);
+                    .append(SPLIT_CHAR);
+            if (i != fields.length - 1) {
+                fieldBuilder.append("\n");
+            }
+            fieldStringBuilder.append(fieldBuilder);
         }
         return fieldStringBuilder.toString();
     }

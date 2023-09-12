@@ -4,3 +4,9 @@ export type TResult<DataType> = {
 	message: string
 	data: DataType
 }
+
+// 列表结果
+export type TListResult = {
+	id: string
+	name: string
+}

@@ -1,6 +1,12 @@
 package com.kkuil.sqleasy.core.dialect.mockStrategy;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
 
 /**
  * @Author Kkuil
@@ -17,6 +23,10 @@ public class UnchangedStrategy implements IMockStrategy {
      */
     @Override
     public Object[] getData(int count, FieldInfoBO field) {
-        return new Object[0];
+        List<Object> data = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            data.add(field.getExtraInfo());
+        }
+        return ArrayUtil.toArray(data, Object.class);
     }
 }

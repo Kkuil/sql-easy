@@ -2,11 +2,10 @@ package com.kkuil.sqleasy.core.model.dto;
 
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Author Kkuil
@@ -25,6 +24,7 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 数据库名
      */
+    @NotBlank(message = "数据库名不能为空")
     private String database;
 
     /**
@@ -46,12 +46,12 @@ public class DataGenerateConfigInfoDTO {
     /**
      * 生成的数据数量
      */
-    @NotBlank(message = "模拟数据数量不能为空")
+    @NotNull(message = "模拟数据数量不能为空")
     private Integer count;
 
     /**
      * 字段信息
      */
-    @NotBlank(message = "字段信息不能为空")
+    @NotEmpty(message = "字段信息不能为空")
     private FieldInfoBO[] fields;
 }

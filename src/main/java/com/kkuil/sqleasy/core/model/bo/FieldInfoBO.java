@@ -1,6 +1,7 @@
 package com.kkuil.sqleasy.core.model.bo;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -64,6 +65,7 @@ public class FieldInfoBO {
     /**
      * 模拟的数据类型
      */
+    @NotNull(message = "模拟数据类型不能为空")
     private Integer mockDataType;
 
     /**

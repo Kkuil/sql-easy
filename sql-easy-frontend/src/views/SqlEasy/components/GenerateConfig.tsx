@@ -1,10 +1,15 @@
 import {Button, Checkbox, Collapse, Dropdown, Form, Input, InputNumber, MenuProps, message, Space} from "antd"
-import {DownOutlined, UserOutlined} from "@ant-design/icons"
+import {DownOutlined} from "@ant-design/icons"
 import {TDataGenerateConfigInfo, TDataGenerateFieldInfo} from "@/types/core"
 import {ItemType as ItemType1} from "antd/es/menu/hooks/useItems"
 import {useImmer} from "use-immer"
 import {ItemType as ItemType2} from "rc-collapse/es/interface"
 import {Draft} from "immer"
+import {useEffect} from "react"
+import {listMockType} from "@/api/common.ts"
+import {CheckboxOptionType, CheckboxValueType} from "antd/es/checkbox/Group"
+import {generate} from "@/api/core.ts"
+import {store} from "@/store"
 
 interface IFieldParams {
 	index: number;
@@ -17,31 +22,87 @@ interface IFieldParams {
  */
 function FieldForm({index, field, onFieldValueChange}: IFieldParams) {
 
-	const items: MenuProps["items"] = [
+	/**
+	 * 模拟类型列表
+	 */
+	const [mockDataType, setMockDataType] = useImmer<MenuProps["items"]>([])
+
+	/**
+	 * 选中的模拟数据类型
+	 */
+	const [selectedMockDataType, setSelectedMockDataType] = useImmer<{
+		key: string,
+		label: string
+	}>({
+		key: "3170",
+		label: "默认"
+	})
+
+	/**
+	 * 布尔值选项
+	 */
+	const options: CheckboxOptionType[] = [
 		{
-			label: "1st menu item",
-			key: "1",
-			icon: <UserOutlined/>,
+			label: "CURRENT_TIMESTAMP",
+			value: "onUpdate"
 		},
 		{
-			label: "2nd menu item",
-			key: "2",
-			icon: <UserOutlined/>,
+			label: "非空",
+			value: "nonNull"
 		},
 		{
-			label: "3rd menu item",
-			key: "3",
-			icon: <UserOutlined/>,
-			danger: true,
+			label: "主键",
+			value: "primary"
 		},
 		{
-			label: "4rd menu item",
-			key: "4",
-			icon: <UserOutlined/>,
-			danger: true,
-			disabled: true,
+			label: "唯一",
+			value: "unique"
+		},
+		{
+			label: "自增",
+			value: "autoIncrement"
 		},
 	]
+
+	useEffect(() => {
+		initMockType().then(() => {
+		})
+	}, [])
+
+	/**
+	 * 初始化模拟数据
+	 */
+	const initMockType = async () => {
+		if (mockDataType?.length) return
+		const result = await listMockType()
+		if (!result.data) {
+			message.error("获取模拟类型失败")
+		}
+		setMockDataType((draft) => {
+			draft?.splice(0, draft.length, ...result.data.map(item => ({key: item.id, label: item.name})))
+		})
+	}
+
+	/**
+	 * 布尔字段更新
+	 */
+	const onBoolFieldChange = (checkedValue: Array<CheckboxValueType>) => {
+		options.forEach((option) => onFieldValueChange(index, option.value as keyof TDataGenerateFieldInfo, checkedValue.includes(option.value) as never))
+	}
+
+	/**
+	 * 选项更新
+	 */
+	const onDropFieldChange: MenuProps["onClick"] = (e) => {
+		console.log(mockDataType)
+		const type = mockDataType?.filter(item => item?.key == e.key)[0]
+		console.log(type)
+		setSelectedMockDataType((draft => {
+			draft.key = type?.key as string
+			draft.label = (type as { label: string })?.label
+		}))
+		onFieldValueChange(index, "mockDataType", e.key as never)
+	}
 
 	return (
 		<>
@@ -52,6 +113,7 @@ function FieldForm({index, field, onFieldValueChange}: IFieldParams) {
 			>
 				<Input
 					defaultValue={field.type}
+					placeholder="请输入字段类型"
 					onChange={(e) => onFieldValueChange(index, "type", e.target.value as never)}
 				/>
 			</Form.Item>
@@ -78,52 +140,29 @@ function FieldForm({index, field, onFieldValueChange}: IFieldParams) {
 				/>
 			</Form.Item>
 
-			<Form.Item<TDataGenerateFieldInfo>
-				label="同步更新"
-				name="onUpdate"
-			>
-				<Input
-					placeholder="请输入字段更新动作"
-					defaultValue={field.onUpdate + ""}
-					onChange={(e) => onFieldValueChange(index, "onUpdate", e.target.value as never)}
-				/>
-			</Form.Item>
-
 			<Checkbox.Group
-				options={[
-					{
-						label: "非空",
-						value: "notNull"
-					},
-					{
-						label: "主键",
-						value: "primary"
-					},
-					{
-						label: "自增",
-						value: "autoIncrement"
-					},
+				options={options}
+				defaultValue={[
+					field.nonNull ? "nonNull" : "",
+					field.primary ? "primary" : "",
+					field.autoIncrement ? "autoIncrement" : "",
+					field.onUpdate ? "onUpdate" : "",
+					field.unique ? "unique" : "",
 				]}
-				defaultValue={[field.nonNull ? "notNull" : "", field.primary ? "primary" : "", field.autoIncrement ? "autoIncrement" : ""]}
-				onChange={(field) => console.log(field)}
+				onChange={onBoolFieldChange}
 			/>
 
-			<Form.Item<TDataGenerateFieldInfo>
-				label="模拟类型"
-				name="mockDataType"
-			>
-				<Dropdown menu={{items}}>
-					<Button>
-						<Space>
-							Button
-							<DownOutlined/>
-						</Space>
-					</Button>
-				</Dropdown>
-				<Space className="extra-info">
-					<div>123</div>
-				</Space>
-			</Form.Item>
+			<Dropdown menu={{items: mockDataType, onClick: onDropFieldChange}} placement="bottom">
+				<Button>
+					<Space>
+						{selectedMockDataType.label}
+						<DownOutlined/>
+					</Space>
+				</Button>
+			</Dropdown>
+			<Space className="extra-info">
+				<div>123</div>
+			</Space>
 		</>
 	)
 }
@@ -177,8 +216,16 @@ export function GenerateConfig() {
 	/**
 	 * 生成数据
 	 */
-	const generate = () => {
-		console.log(generateConfig)
+	const generateData = async () => {
+		const result = await generate(generateConfig)
+		if (!result?.data) {
+			return message.error("生成失败")
+		}
+		message.success("生成成功")
+		store.dispatch({
+			type: "core/setData",
+			payload: result.data
+		})
 	}
 
 	/**
@@ -220,6 +267,10 @@ export function GenerateConfig() {
 			}
 			draft.push(fieldConfig as Draft<ItemType2>)
 		})
+		setGenerateConfig((draft) => {
+			draft.fields.push(field)
+		})
+		console.log(generateConfig.fields)
 	}
 
 	/**
@@ -240,7 +291,7 @@ export function GenerateConfig() {
 			<Form
 				labelCol={{span: 4}}
 				wrapperCol={{span: 14}}
-				onFinish={generate}
+				onFinish={generateData}
 				layout="horizontal"
 				className="mt-[10px]"
 			>
@@ -267,12 +318,22 @@ export function GenerateConfig() {
 				</Form.Item>
 
 				<Form.Item<TDataGenerateConfigInfo>
+					label="存储引擎"
+					name="engine"
+				>
+					<Input
+						placeholder="请输入存储引擎，默认为InnoDB"
+						onChange={(e) => onValueChange("engine", e.target.value as never)}
+					/>
+				</Form.Item>
+
+				<Form.Item<TDataGenerateConfigInfo>
 					label="表注释"
 					name="comment"
 					rules={[{message: "表注释不能为空"}]}
 				>
 					<Input
-						placeholder="请输入表注释"
+						placeholder="请输入表注释，默认为表名"
 						onChange={(e) => onValueChange("comment", e.target.value as never)}
 					/>
 				</Form.Item>
@@ -300,7 +361,7 @@ export function GenerateConfig() {
 				<Button type="primary" onClick={addCommonField}>新增通用字段</Button>
 			</Space>
 			<Form.Item className="mt-[10px]">
-				<Button type="primary" onClick={generate}>生成</Button>
+				<Button type="primary" onClick={generateData}>生成</Button>
 			</Form.Item>
 		</>
 	)

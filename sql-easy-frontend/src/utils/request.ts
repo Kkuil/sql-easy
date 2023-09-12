@@ -1,5 +1,6 @@
 import axios from "axios"
 import {TOKEN_KEY_IN_HEADER, TOKEN_KEY_IN_HEADER_PREFIX, TOKEN_KEY_IN_LOCAL_STORAGE} from "@/constant/user.ts"
+import {message} from "antd"
 
 const BASE_URL: string = "http://127.0.0.1"
 const BASE_PORT: number = 3017
@@ -23,7 +24,7 @@ request.interceptors.request.use(
 		return config
 	},
 	(error) => {
-		return Promise.reject(error)
+		message.error(error.message)
 	}
 )
 
@@ -33,7 +34,7 @@ request.interceptors.response.use(
 		return response.data
 	},
 	(error) => {
-		return Promise.reject(error)
+		message.error(error.message)
 	}
 )
 

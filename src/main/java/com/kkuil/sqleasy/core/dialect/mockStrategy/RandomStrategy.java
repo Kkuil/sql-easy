@@ -1,8 +1,10 @@
 package com.kkuil.sqleasy.core.dialect.mockStrategy;
 
+import cn.hutool.core.util.StrUtil;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.IMockRandomStrategy;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.IMockRandomStrategyFactory;
 import com.kkuil.sqleasy.core.dialect.mockStrategy.randomStrategy.MockRandomStrategyFactory;
+import com.kkuil.sqleasy.core.enums.MockRandomDataEnum;
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
 
 /**
@@ -27,9 +29,12 @@ public class RandomStrategy implements IMockStrategy {
     @Override
     public String[] getData(int count, FieldInfoBO field) {
         // 1. 获取额外信息（随机策略）
-        Object randomStrategyId = field.getExtraInfo();
+        String randomStrategyId = field.getExtraInfo().toString();
         // 2. 从随机工厂中获取随机数据加载器
-        IMockRandomStrategy strategy = MOCK_RANDOM_STRATEGY_FACTORY.produce((Integer) randomStrategyId);
+        IMockRandomStrategy strategy =
+                StrUtil.isBlank(randomStrategyId)
+                        ? MOCK_RANDOM_STRATEGY_FACTORY.produce(MockRandomDataEnum.DEFAULT.getId())
+                        : MOCK_RANDOM_STRATEGY_FACTORY.produce(Integer.parseInt(randomStrategyId));
         // 3. 获取随机数据，返回
         String[] randomData = strategy.getRandomData(count);
         return randomData;

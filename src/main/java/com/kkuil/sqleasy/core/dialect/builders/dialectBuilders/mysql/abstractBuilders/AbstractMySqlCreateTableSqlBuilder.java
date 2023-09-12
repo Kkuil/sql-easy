@@ -15,7 +15,6 @@ public abstract class AbstractMySqlCreateTableSqlBuilder extends AbstractSqlBuil
      * 建表模板
      */
     public static final String CREATE_TABLE_CODE_TEMPLATE = """
-            
             -- %s
             CREATE TABLE IF NOT EXISTS %s.`%s` (
             %s
