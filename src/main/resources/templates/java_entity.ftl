@@ -1,5 +1,7 @@
 <#-- Java 实体模板 -->
 import lombok.Data;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
 * ${comment}
