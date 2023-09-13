@@ -1,6 +1,8 @@
-# SpringBootTemplate 🚀
+# sql-easy 🚀
 
-该项目是一个基于Spring Boot的后端模板，使用了以下技术和工具进行开发和构建。
+sql-easy是一个用于生成SQL语句的工具，它可以帮助开发人员更快速、更准确地生成各种类型的SQL语句，
+包括创建表、插入数据、更新数据和查询数据等操作。
+通过简单的配置和参数输入，该工具能够自动生成符合特定需求的SQL语句，提高开发效率并减少错误。
 
 ## 技术栈
 
@@ -14,7 +16,9 @@
 - 📚 Jackson：使用Jackson进行JSON数据的序列化和反序列化。
 - 📚 Hutool：使用Hutool提供更多实用的Java工具类。
 - 📚 Knife4j：使用Knife4j生成API文档。
-- 📚 Jackson：使用Jackson进行JSON数据的序列化和反序列化。
+- 📚 spring-validation：spring校验器
+- 📚 easyexcel：表格生成
+- 📚 jwt：token验证
 
 ![spring-boot](https://img.shields.io/badge/spring--boot-3.x-brightgreen)
 ![mybatis](https://img.shields.io/badge/mybatis-3.5.6-lightblue)
@@ -48,18 +52,20 @@ mvn clean install
 │   │   ├── java/                  # Java代码目录
 │   │   │   ├── config/            # 配置类
 │   │   │   ├── controller/        # 控制器类
-│   │   │   ├── entity/            # 数据库实体类
+│   │   │   ├── core/            # 核心包
+│   │   │   ├── interceptors/            # 拦截器
+│   │   │   ├── model/            # 数据库实体类
 │   │   │   ├── mapper/            # MyBatis映射接口
 │   │   │   ├── service/           # 服务类
-│   │   │   ├── util/              # 工具类
-│   │   │   ├── Application.java   # Spring Boot应用入口
+│   │   │   ├── utils/              # 工具类
+│   │   │   ├── SqlEasyApplication.java   # Spring Boot应用入口
 │   │   ├── resources/             # 资源文件目录
 │   │   │   ├── application.yml    # 应用配置文件
-│   │   ├── test/                   # 测试目录
-│   │   │   ├── java/               # Java测试代码目录
+│   │   │   ├── application-prod.properties    # 生产应用配置文件
+│   │   │   ├── application-test.yml    # 测试应用配置文件
+│   │   │   ├── application-dev.yml    # 开发应用配置文件
 ├── .gitignore                     # Git忽略文件配置
 ├── pom.xml                        # Maven配置文件
-├── .editorconfig                  # 编辑器配置
 ├── .gitignore                     # Git忽略文件配置
 └── spring-boot-template.iml       # IntelliJ IDEA项目文件
 
@@ -68,7 +74,6 @@ mvn clean install
 1. 初始化项目（参考上述步骤）。
 2. 开发你的应用，根据需要修改或添加控制器、服务类、数据库实体类等。
 3. 在 `src/main/resources` 目录中配置你的应用配置文件，例如数据库连接信息、日志配置等。
-4. 在 `src/main/java/config` 目录中配置你的配置类，例如数据库连接池配置、AOP切面配置等。
 5. 在 `src/main/java/mapper` 目录中使用 MyBatis 注解或 XML 文件配置数据库操作。
 6. 在 `src/main/java/service` 目录中编写你的服务类，实现业务逻辑。
 7. 在 `src/main/java/controller` 目录中编写你的控制器类，处理请求和返回响应。
@@ -131,4 +136,4 @@ mvn clean package
 
 ---
 
-🚀 现在你可以开始使用 SpringBootTemplate 进行后端项目的开发啦！如果有任何问题或建议，请随时提出。祝你编码愉快！
+🚀 如果有任何问题或建议，请随时提出。祝你编码愉快！
