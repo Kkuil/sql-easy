@@ -1,6 +1,7 @@
 package com.kkuil.sqleasy.core.model.dto;
 
 import com.kkuil.sqleasy.core.model.bo.FieldInfoBO;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -47,6 +48,7 @@ public class DataGenerateConfigInfoDTO {
      * 生成的数据数量
      */
     @NotNull(message = "模拟数据数量不能为空")
+    @Max(message = "数量过多", value = 100)
     private Integer count;
 
     /**

@@ -24,7 +24,7 @@ request.interceptors.request.use(
 		return config
 	},
 	(error) => {
-		message.error(error.message)
+		console.log(error)
 	}
 )
 
@@ -34,7 +34,8 @@ request.interceptors.response.use(
 		return response.data
 	},
 	(error) => {
-		message.error(error.message)
+		message.error(error.response.data.message)
+		console.log(error)
 	}
 )
 

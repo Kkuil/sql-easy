@@ -7,7 +7,8 @@ import {store} from "@/store"
 
 function App() {
 	useEffect(() => {
-		getUserInfo()
+		getUserInfo().then(() => {
+		})
 		return () => {
 		}
 	}, [])
@@ -16,14 +17,15 @@ function App() {
 	const getUserInfo = async () => {
 		try {
 			const result = await auth()
-			if (result.data) {
-				store.dispatch({
-					type: "user/setInfo",
-					payload: result.data
-				})
+			if (!result.data) {
+				return message.error("token已失效或无效")
 			}
+			store.dispatch({
+				type: "user/setInfo",
+				payload: result.data
+			})
 		} catch (e) {
-			message.error("token已失效或无效")
+			console.log(e)
 		}
 	}
 	return (

@@ -4,10 +4,11 @@ import {TDataGenerateConfigInfo, TDataGenerateFieldInfo} from "@/types/core"
 import {ItemType as ItemType1} from "antd/es/menu/hooks/useItems"
 import {useImmer} from "use-immer"
 import {ItemType as ItemType2} from "rc-collapse/es/interface"
-import {Draft} from "immer"
 import {generate} from "@/api/core.ts"
 import {store} from "@/store"
+import _ from "lodash"
 import {FieldForm} from "@/views/SqlEasy/components/FieldForm.tsx"
+import {Draft} from "immer"
 
 export function GenerateConfig() {
 	/**
@@ -144,6 +145,9 @@ export function GenerateConfig() {
 	 * @param index
 	 */
 	const delField = (index: number) => {
+		setGenerateConfig((draft) => {
+			draft.fields.splice(index, 1)
+		})
 		setFiledItems(draft => {
 			draft.splice(index, 1)
 		})
@@ -152,7 +156,7 @@ export function GenerateConfig() {
 	/**
 	 * 新增字段
 	 */
-	const addField = (field: TDataGenerateFieldInfo) => {
+	const addField = _.throttle((field: TDataGenerateFieldInfo) => {
 		if (fieldItems.length > 10) {
 			return message.error("建议分库分表")
 		}
@@ -177,7 +181,7 @@ export function GenerateConfig() {
 			draft.fields.push(field)
 		})
 		console.log(generateConfig.fields)
-	}
+	}, 500)
 
 	/**
 	 * 新增通用字段
