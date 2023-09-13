@@ -11,7 +11,7 @@ COPY ./target/sql-easy.jar app.jar
 EXPOSE 8080
 
 # 设置JVM参数，可以根据需要进行调整
-ENV JAVA_OPTS="-Xmx512m -Xms256m" OSS_ACCESS_KEY_ID="LTAI5tJ9K46qWUoT9i66wcGD" OSS_ACCESS_KEY_SECRET="G4PEXxbZkWNGzHbdIzNfH41osLLTeJ"
+ENV JAVA_OPTS="-Xmx512m -Xms256m" OSS_ACCESS_KEY_ID="123456" OSS_ACCESS_KEY_SECRET="123456"
 
 # 启动容器时运行的命令
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar -Djasypt.encryptor.password=123456 app.jar"]
