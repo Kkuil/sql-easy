@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-@AuthLogin
 public class DataGenerateController {
 
     @Resource

@@ -10,13 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @Author kkuil
  * @Date 2023/08/03 23:00
  * @Description 业务异常处理器
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class BusinessExceptionHandler {
     /**
      * @param e NecessaryFieldsIsEmptyException

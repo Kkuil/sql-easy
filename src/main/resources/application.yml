@@ -5,19 +5,12 @@ server:
 spring:
     profiles:
         ## 当前运行环境
-        active: prod
+        active: dev
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://${self.spring.datasource.url}:${self.spring.datasource.port}/${self.spring.datasource.database}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
         username: ${self.spring.datasource.username}
         password: ${self.spring.datasource.password}
-    data:
-        redis:
-            host: ${self.spring.redis.host}
-            port: ${self.spring.redis.port}
-            database: ${self.spring.redis.database}
-            password: ${self.spring.redis.password}
-            connect-timeout: ${self.spring.redis.timeout}
     main:
         lazy-initialization: ${self.spring.main.is-lazy}
 mybatis-plus:
@@ -45,7 +38,3 @@ knife4j:
     enable: true
     setting:
         language: zh_cn
-aliyun:
-    oss:
-        endpoint: ${self.aliyun.oss.endpoint}
-        bucket-name: ${self.aliyun.oss.bucket-name}

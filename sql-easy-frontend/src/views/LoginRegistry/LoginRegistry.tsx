@@ -110,10 +110,10 @@ export function LoginRegistry() {
 					...loginInfo,
 					password: CryptoUtil.md5(loginInfo.password)
 				})
-				if (!result.data) {
-					return message.error(result.message)
+				if (!result?.data) {
+					return message.error(result?.message)
 				}
-				message.success(result.message)
+				message.success(result?.message)
 				// 保存token
 				localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, result.data)
 				navigateTo("/")

@@ -93,7 +93,7 @@ export function Layout() {
 								return (
 									<Dropdown
 										menu={{
-											items: [
+											items: [[
 												{
 													key: "logout",
 													icon: <LogoutOutlined/>,
@@ -104,7 +104,7 @@ export function Layout() {
 													icon: <LoginOutlined/>,
 													label: <a onClick={login}>去登录</a>,
 												},
-											].slice(username ? 0 : 1, 2),
+											][username ? 0 : 1]],
 										}}
 									>
 										{dom}
