@@ -6,7 +6,6 @@ import {useImmer} from "use-immer"
 import {ItemType as ItemType2} from "rc-collapse/es/interface"
 import {generate} from "@/api/core.ts"
 import {store} from "@/store"
-import _ from "lodash"
 import {FieldForm} from "@/views/SqlEasy/components/FieldForm.tsx"
 import {Draft} from "immer"
 
@@ -156,7 +155,7 @@ export function GenerateConfig() {
 	/**
 	 * 新增字段
 	 */
-	const addField = _.throttle((field: TDataGenerateFieldInfo) => {
+	const addField = (field: TDataGenerateFieldInfo) => {
 		if (fieldItems.length > 10) {
 			return message.error("建议分库分表")
 		}
@@ -181,7 +180,7 @@ export function GenerateConfig() {
 			draft.fields.push(field)
 		})
 		console.log(generateConfig.fields)
-	}, 500)
+	}
 
 	/**
 	 * 新增通用字段

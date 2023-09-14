@@ -2,8 +2,8 @@ import axios from "axios"
 import {TOKEN_KEY_IN_HEADER, TOKEN_KEY_IN_HEADER_PREFIX, TOKEN_KEY_IN_LOCAL_STORAGE} from "@/constant/user.ts"
 import {message} from "antd"
 
-const BASE_URL: string = "http://127.0.0.1"
-const BASE_PORT: number = 3017
+const BASE_URL: string = "http://8.130.88.215"
+const BASE_PORT: number = 8080
 const BASE_TIMEOUT: number = 10000
 const BASE_PREFIX: string = "/sql-easy"
 
