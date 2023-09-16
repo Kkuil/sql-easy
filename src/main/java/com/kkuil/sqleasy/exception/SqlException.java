@@ -6,6 +6,9 @@ package com.kkuil.sqleasy.exception;
  * @Description SQL异常
  */
 public class SqlException extends RuntimeException{
+
+    public static final String SQL_EXCEPTION_MESSAGE = "数据出了点小差，稍后再试~~";
+
     public SqlException() {
     }
 
