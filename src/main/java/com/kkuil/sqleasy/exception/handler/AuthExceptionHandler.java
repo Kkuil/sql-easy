@@ -16,7 +16,7 @@ import static com.kkuil.sqleasy.constant.GlobalConst.EMPTY_STR;
 public class AuthExceptionHandler {
     /**
      * @param e Exception
-     * @return ResponseEntity
+     * @return ResultUtil
      * @description 处理未登录异常
      */
     @ExceptionHandler(value = UnAuthorizationException.class)
